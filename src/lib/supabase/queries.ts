@@ -21,7 +21,7 @@ export interface PaginationOptions {
  * List of African country tables in your database
  */
 const AFRICAN_COUNTRIES = [
-  { table: "Rewanda", name: "Rewanda", slug: "rewanda" }  
+  { table: "Rewanda", name: "Rewanda", slug: "rwanda" }  
 ];
 
 /**
