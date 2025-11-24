@@ -17,6 +17,11 @@ import familySafariImage from "@/assets/latestStories/family_safari.jpg";
 import groupBinocularsImage from "@/assets/latestStories/Group-of-tourists-sitting-in-jeep-and-looking-through-binoculars-Kruger-National-Park-Africa-shutterstock_145428859.jpg";
 import southAfricaPanoramaImage from "@/assets/latestStories/places-to-visit-in-south-africa-1715923864-785X440.jpg";
 import adventureConvoyImage from "@/assets/latestStories/9e1e0fa96372cc48493a54138d813d5b.jpg";
+import africaImage from "@/assets/Topdestinations/imageafrica.png";
+import egyptImage from "@/assets/Topdestinations/imageegypte.png";
+import moroccoImage from "@/assets/Topdestinations/imagemorroco.png";
+import southAfricaImage from "@/assets/Topdestinations/imagesouthafrica.png";
+import tanzaniaImage from "@/assets/Topdestinations/imagetanzania.png";
 
 const curatedStories = [
   {
@@ -50,29 +55,29 @@ function TopDestinations() {
   // Images and titles from assets/Topdestinations
   const destinations = [
     {
-      image: require("@/assets/Topdestinations/imageafrica.png"),
+      image: africaImage,
       title: "Africa",
-      description: "The heart of the continent, rich in culture and breathtaking landscapes."
+      description: "The heart of the continent, rich in culture and breathtaking landscapes.",
     },
     {
-      image: require("@/assets/Topdestinations/imageegypte.png"),
+      image: egyptImage,
       title: "Egypt",
-      description: "Land of the Pharaohs, pyramids, and the majestic Nile."
+      description: "Land of the Pharaohs, pyramids, and the majestic Nile.",
     },
     {
-      image: require("@/assets/Topdestinations/imagemorroco.png"),
+      image: moroccoImage,
       title: "Morocco",
-      description: "A gateway to Africa, famous for its vibrant souks and Sahara dunes."
+      description: "A gateway to Africa, famous for its vibrant souks and Sahara dunes.",
     },
     {
-      image: require("@/assets/Topdestinations/imagesouthafrica.png"),
+      image: southAfricaImage,
       title: "South Africa",
-      description: "A rainbow nation with stunning coastlines and wildlife."
+      description: "A rainbow nation with stunning coastlines and wildlife.",
     },
     {
-      image: require("@/assets/Topdestinations/imagetanzania.png"),
+      image: tanzaniaImage,
       title: "Tanzania",
-      description: "Home to Kilimanjaro and the Serengeti’s great migration."
+      description: "Home to Kilimanjaro and the Serengeti’s great migration.",
     },
   ];
 
@@ -95,11 +100,13 @@ function TopDestinations() {
             View all →
           </Link>
         </div>
-        <DestinationCarousel destinations={destinations.map(d => ({
-          image: d.image.default,
-          title: d.title,
-          description: d.description,
-        }))} />
+        <DestinationCarousel
+          destinations={destinations.map((d) => ({
+            image: d.image,
+            title: d.title,
+            description: d.description,
+          }))}
+        />
       </div>
     </section>
   );

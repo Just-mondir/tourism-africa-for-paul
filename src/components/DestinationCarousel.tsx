@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 interface StaticDestinationCardProps {
-  image: string;
+  image: StaticImageData | string;
   title: string;
   description: string;
 }
