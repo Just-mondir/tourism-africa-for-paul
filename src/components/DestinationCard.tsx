@@ -66,20 +66,32 @@ export default function DestinationCard({ destination, index = 0 }: DestinationC
         </div>
 
         {/* Content overlay */}
-        <div className="relative h-full flex flex-col justify-end p-6">
+        <div className="relative h-full flex flex-col justify-end p-0">
           {/* Country badge */}
-          <div className="absolute top-4 right-4 bg-primary-500/90 text-white px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">
+          <div className="absolute top-4 right-4 bg-primary-500/90 text-white px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm z-10">
             {destination.country}
           </div>
 
-          {/* Title - always visible */}
-          <h3 className="text-xl md:text-2xl font-bold text-white mb-2 drop-shadow-lg">
-            {destination.places}
-          </h3>
+          {/* Title - position change on hover */}
+          <div
+            className="absolute left-0 w-full px-6 z-10 transition-all duration-300"
+            style={{
+              bottom: '1rem',
+            }}
+          >
+            <h3
+              className="text-base md:text-lg font-bold text-white drop-shadow-lg bg-black/40 rounded-b-xl py-2 px-3 w-full transition-all duration-300 group-hover:translate-y-[-5.5rem] group-hover:rounded-t-xl group-hover:rounded-b-none"
+              style={{
+                transition: 'transform 0.3s',
+              }}
+            >
+              {destination.places}
+            </h3>
+          </div>
 
           {/* Description - expands on hover */}
           {truncatedDesc && (
-            <div className="overflow-hidden">
+            <div className="overflow-hidden relative z-10 px-6 pb-6">
               <div className="transform transition-all duration-300 ease-in-out translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
                 <p className="text-white/95 text-sm md:text-base leading-relaxed drop-shadow-md pt-2">
                   {truncatedDesc}

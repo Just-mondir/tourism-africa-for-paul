@@ -59,6 +59,12 @@ export default function BlogCard({
                   <Calendar className="w-16 h-16 text-secondary-400" />
                 </div>
               )}
+              {/* Title at bottom of image (horizontal) */}
+              <div className="absolute bottom-0 left-0 w-full px-4 pb-3 z-10">
+                <h3 className="text-base md:text-lg font-bold text-white drop-shadow-lg bg-black/40 rounded-b-xl py-2 px-3 w-full">
+                  {post.title}
+                </h3>
+              </div>
             </div>
 
             {/* Content */}
@@ -73,7 +79,7 @@ export default function BlogCard({
                 </time>
               )}
               <h3 className="text-2xl font-bold text-secondary-900 mb-3 group-hover:text-primary-600 transition-colors line-clamp-2">
-                {post.title}
+                {/* Title removed from here, now on image */}
               </h3>
               {excerpt && (
                 <p className="text-secondary-600 mb-4 line-clamp-3">{excerpt}</p>
@@ -118,6 +124,12 @@ export default function BlogCard({
               <Calendar className="w-12 h-12 text-secondary-400" />
             </div>
           )}
+          {/* Title at bottom of image (vertical) */}
+          <div className="absolute bottom-0 left-0 w-full px-3 pb-2 z-10">
+            <h3 className="text-base font-bold text-white drop-shadow-lg bg-black/40 rounded-b-xl py-2 px-3 w-full">
+              {post.title}
+            </h3>
+          </div>
         </div>
 
         {/* Content */}
@@ -131,7 +143,7 @@ export default function BlogCard({
             </time>
           )}
           <h3 className="text-lg font-bold text-secondary-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
-            {post.title}
+            {/* Title removed from here, now on image */}
           </h3>
           {excerpt && (
             <p className="text-secondary-600 text-sm mb-3 line-clamp-2">{excerpt}</p>
