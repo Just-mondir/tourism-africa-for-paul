@@ -48,13 +48,17 @@ export default function BusinessCard({ business, index = 0 }: BusinessCardProps)
               <Building2 className="w-16 h-16 text-secondary-400" />
             </div>
           )}
+          {/* Title at bottom of image */}
+          <div className="absolute bottom-0 left-0 w-full px-4 pb-3 z-10">
+            <h3 className="text-base font-bold text-white drop-shadow-lg bg-black/40 rounded-b-xl py-2 px-3 w-full">
+              {businessName}
+            </h3>
+          </div>
         </div>
 
         {/* Content */}
         <div className="p-6">
-          <h3 className="text-xl font-bold text-secondary-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
-            {businessName}
-          </h3>
+          {/* Title removed from here, now on image */}
           
           {business.category && (
             <span className="inline-block text-xs bg-primary-100 text-primary-700 px-2 py-1 rounded mb-2">

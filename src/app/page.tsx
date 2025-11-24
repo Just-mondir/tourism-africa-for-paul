@@ -5,10 +5,10 @@
 
 import { Suspense } from "react";
 import Hero from "@/components/Hero";
-import DestinationCard from "@/components/DestinationCard";
+import DestinationCarousel from "@/components/DestinationCarousel";
 import BlogCard from "@/components/BlogCard";
 import Loader from "@/components/Loader";
-import { getDestinations } from "@/lib/supabase/queries";
+// import { getDestinations } from "@/lib/supabase/queries";
 import { getPosts } from "@/lib/supabase/queries";
 import Link from "next/link";
 import Image from "next/image";
@@ -45,64 +45,64 @@ const curatedStories = [
   },
 ];
 
-// Top African destinations section
-async function TopDestinations() {
-  try {
-    const { destinations } = await getDestinations({ limit: 8 });
-    return (
-      <section className="bg-white pt-8 md:pt-12 pb-16 md:pb-24">
-        <div className="container-custom">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900">
-              Explore African Destinations
-            </h2>
-            <p className="text-secondary-600 mt-2">
-              Discover amazing places across Algeria, Rwanda, Benin, Libya, and Botswana
-            </p>
-          </div>
-          <div className="flex justify-center mb-8">
-            <Link
-              href="/destinations"
-              className="text-primary-600 hover:text-primary-700 font-semibold transition-colors whitespace-nowrap"
-            >
-              View all →
-            </Link>
-          </div>
+// Top African destinations section (static assets)
+function TopDestinations() {
+  // Images and titles from assets/Topdestinations
+  const destinations = [
+    {
+      image: require("@/assets/Topdestinations/imageafrica.png"),
+      title: "Africa",
+      description: "The heart of the continent, rich in culture and breathtaking landscapes."
+    },
+    {
+      image: require("@/assets/Topdestinations/imageegypte.png"),
+      title: "Egypt",
+      description: "Land of the Pharaohs, pyramids, and the majestic Nile."
+    },
+    {
+      image: require("@/assets/Topdestinations/imagemorroco.png"),
+      title: "Morocco",
+      description: "A gateway to Africa, famous for its vibrant souks and Sahara dunes."
+    },
+    {
+      image: require("@/assets/Topdestinations/imagesouthafrica.png"),
+      title: "South Africa",
+      description: "A rainbow nation with stunning coastlines and wildlife."
+    },
+    {
+      image: require("@/assets/Topdestinations/imagetanzania.png"),
+      title: "Tanzania",
+      description: "Home to Kilimanjaro and the Serengeti’s great migration."
+    },
+  ];
 
-          {destinations.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {destinations.map((destination, index) => (
-                <DestinationCard key={`${destination.country_slug}-${destination.id}`} destination={destination} index={index} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12 text-secondary-600">
-              <p>No destinations available at the moment.</p>
-              <p className="text-sm mt-2">
-                Destinations will appear here once data is loaded from your Supabase tables.
-              </p>
-            </div>
-          )}
+  return (
+    <section className="bg-white pt-8 md:pt-12 pb-16 md:pb-24">
+      <div className="container-custom">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-secondary-900">
+            Explore African Destinations
+          </h2>
+          <p className="text-secondary-600 mt-2">
+            Discover amazing places across Africa, Egypt, Morocco, South Africa, and Tanzania
+          </p>
         </div>
-      </section>
-    );
-  } catch (error) {
-    console.error("Error loading destinations:", error);
-    return (
-      <section className="section-spacing bg-white">
-        <div className="container-custom">
-          <div className="text-center py-12 text-red-600">
-            <p>Error loading destinations.</p>
-            <p className="text-sm mt-2">
-              Please check your Supabase connection and environment variables.
-              <br />
-              Make sure your tables (Algerie, Rwanda, Benin, Libya, Botswana) exist and have data.
-            </p>
-          </div>
+        <div className="flex justify-center mb-8">
+          <Link
+            href="/destinations"
+            className="text-primary-600 hover:text-primary-700 font-semibold transition-colors whitespace-nowrap"
+          >
+            View all →
+          </Link>
         </div>
-      </section>
-    );
-  }
+        <DestinationCarousel destinations={destinations.map(d => ({
+          image: d.image.default,
+          title: d.title,
+          description: d.description,
+        }))} />
+      </div>
+    </section>
+  );
 }
 
 // Latest stories section (static curated content)
