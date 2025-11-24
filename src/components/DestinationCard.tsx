@@ -1,0 +1,94 @@
+/**
+ * DestinationCard Component - Card to display an African destination/place
+ * Uses fields: places, desc, image_url from country tables
+ * Image as background, title visible, description expands on hover (100 chars max)
+ */
+
+"use client";
+
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { MapPin } from "lucide-react";
+import type { Destination } from "@/types/destination";
+import { getOptimizedImageUrl } from "@/lib/cloudinary";
+
+interface DestinationCardProps {
+  destination: Destination;
+  index?: number;
+}
+
+export default function DestinationCard({ destination, index = 0 }: DestinationCardProps) {
+  const imageUrl = getOptimizedImageUrl(destination.image_url, 600, 400);
+  
+  // Truncate description to 100 characters max
+  const truncatedDesc = destination.desc 
+    ? (destination.desc.length > 100 ? destination.desc.substring(0, 100) + "..." : destination.desc)
+    : null;
+  
+  // Generate a slug from places name for routing
+  const placeSlug = destination.places
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .trim();
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="group"
+    >
+      <Link
+        href={`/destinations/${destination.country_slug}/${placeSlug}`}
+        className="block relative rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 h-80"
+      >
+        {/* Image as background */}
+        <div className="absolute inset-0">
+          {destination.image_url ? (
+            <Image
+              src={imageUrl}
+              alt={destination.places}
+              fill
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-secondary-200 to-secondary-300">
+              <MapPin className="w-16 h-16 text-secondary-400" />
+            </div>
+          )}
+          {/* Dark overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 group-hover:from-black/90 group-hover:via-black/60 group-hover:to-black/30 transition-all duration-300" />
+        </div>
+
+        {/* Content overlay */}
+        <div className="relative h-full flex flex-col justify-end p-6">
+          {/* Country badge */}
+          <div className="absolute top-4 right-4 bg-primary-500/90 text-white px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">
+            {destination.country}
+          </div>
+
+          {/* Title - always visible */}
+          <h3 className="text-xl md:text-2xl font-bold text-white mb-2 drop-shadow-lg">
+            {destination.places}
+          </h3>
+
+          {/* Description - expands on hover */}
+          {truncatedDesc && (
+            <div className="overflow-hidden">
+              <div className="transform transition-all duration-300 ease-in-out translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
+                <p className="text-white/95 text-sm md:text-base leading-relaxed drop-shadow-md pt-2">
+                  {truncatedDesc}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </Link>
+    </motion.div>
+  );
+}
