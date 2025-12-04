@@ -6,6 +6,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import type { Metadata } from "next";
+import Image from "next/image";
 import DestinationCard from "@/components/DestinationCard";
 import Loader from "@/components/Loader";
 import { getDestinations, getDestinationsByCountry, getCountries } from "@/lib/supabase/queries";
@@ -25,37 +26,102 @@ export default async function DestinationsPage({
   const countryFilter = searchParams.country || "";
 
   return (
-    <div className="section-spacing bg-white">
-      <div className="container-custom">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-secondary-900 mb-4">
-            African Destinations
-          </h1>
-          <p className="text-lg text-secondary-600 max-w-2xl mx-auto">
-            Discover incredible places across Algeria, Rwanda, Benin, Libya, and Botswana. 
-            From ancient cities to natural wonders, explore the diversity of Africa.
-          </p>
+    <div className="bg-white">
+      {/* Hero Section with Cards Overlay */}
+      <div className="relative w-full overflow-hidden">
+        <Image
+          src="/destinationHero.webp"
+          alt="African Destinations Hero"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/50" />
+        {/* Hero Content */}
+        <div className="relative z-10 container-custom px-4 md:px-6 pt-16 md:pt-20 pb-8 md:pb-12">
+          {/* Title and Subtitle - Centered */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6 drop-shadow-lg">
+              Top African Destinations
+            </h1>
+            <p className="text-lg md:text-xl text-white/90 drop-shadow-md max-w-2xl mx-auto">
+              Discover breathtaking landscapes, vibrant cultures, and unforgettable adventures across Africa's most stunning destinations.
+            </p>
+          </div>
+          
+          {/* Featured Destinations Cards - Normal Size */}
+          <div className="relative z-20">
+            <Suspense
+              fallback={
+                <div className="flex items-center justify-center py-12">
+                  <Loader size="lg" />
+                </div>
+              }
+            >
+              <FeaturedDestinations countrySlug={countryFilter} />
+            </Suspense>
+          </div>
         </div>
+      </div>
 
-        {/* Country Filters */}
-        <Suspense fallback={null}>
-          <CountryFilters currentCountry={countryFilter} />
-        </Suspense>
+      <div className="pt-8 md:pt-12 pb-16 md:pb-24">
+        <div className="container-custom">
 
-        {/* Destinations List */}
-        <Suspense
-          fallback={
-            <div className="flex items-center justify-center py-12">
-              <Loader size="lg" />
-            </div>
-          }
-        >
-          <DestinationsList page={page} limit={limit} countrySlug={countryFilter} />
-        </Suspense>
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+              African Destinations
+            </h2>
+            <p className="text-lg text-secondary-600 max-w-2xl mx-auto">
+              Discover incredible places across Algeria, Rwanda, Benin, Libya, and Botswana. 
+              From ancient cities to natural wonders, explore the diversity of Africa.
+            </p>
+          </div>
+
+          {/* Country Filters */}
+          <Suspense fallback={null}>
+            <CountryFilters currentCountry={countryFilter} />
+          </Suspense>
+
+          {/* Destinations List */}
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center py-12">
+                <Loader size="lg" />
+              </div>
+            }
+          >
+            <DestinationsList page={page} limit={limit} countrySlug={countryFilter} />
+          </Suspense>
+        </div>
       </div>
     </div>
   );
+}
+
+// Featured Destinations - Shows first 3 cards (smaller size for Hero)
+async function FeaturedDestinations({ countrySlug }: { countrySlug: string }) {
+  try {
+    const { destinations } = countrySlug
+      ? await getDestinationsByCountry(countrySlug, { page: 1, limit: 3 })
+      : await getDestinations({ page: 1, limit: 3 });
+
+    if (destinations.length === 0) {
+      return null;
+    }
+
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {destinations.map((destination, index) => (
+          <DestinationCard key={`featured-${destination.country_slug}-${destination.id}`} destination={destination} index={index} />
+        ))}
+      </div>
+    );
+  } catch (error) {
+    console.error("Error loading featured destinations:", error);
+    return null;
+  }
 }
 
 // Country filter buttons

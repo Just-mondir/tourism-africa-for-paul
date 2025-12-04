@@ -4,6 +4,7 @@
  */
 
 import Link from "next/link";
+import Image from "next/image";
 import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 
 const footerLinks = {
@@ -27,8 +28,8 @@ const footerLinks = {
     { name: "Travel Tips", href: "/tips" },
   ],
   legal: [
-    { name: "Privacy Policy", href: "/privacy" },
-    { name: "Terms of Service", href: "/terms" },
+    { name: "Privacy Policy", href: "/PDF/Privacy Policy for AfricGuide.pdf" },
+    { name: "Terms of Service", href: "/PDF/Terms of Service – AfricGuide.pdf" },
     { name: "Cookies", href: "/cookies" },
   ],
 };
@@ -49,9 +50,15 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <Link
               href="/"
-              className="text-2xl font-bold mb-4 inline-block hover:text-primary-400 transition-colors"
+              className="inline-block mb-4 hover:opacity-80 transition-opacity"
             >
-              AFRICA TOURISM
+              <Image
+                src="/mylogo.png"
+                alt="AfricGuide"
+                width={350}
+                height={130}
+                className="h-28 w-auto object-contain"
+              />
             </Link>
             <p className="text-secondary-400 mb-6">
               Discover Africa's hidden treasures. Your comprehensive guide to exploring Algeria, 
@@ -141,17 +148,19 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-secondary-800">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-secondary-400 text-sm">
-              © {new Date().getFullYear()} Africa Tourism. All rights reserved.
+              © {new Date().getFullYear()} AfricGuide. All rights reserved.
             </p>
             <div className="flex gap-6">
               {footerLinks.legal.map((link) => (
-                <Link
+                <a
                   key={link.href}
                   href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-secondary-400 hover:text-primary-400 transition-colors text-sm"
                 >
                   {link.name}
-                </Link>
+                </a>
               ))}
             </div>
           </div>

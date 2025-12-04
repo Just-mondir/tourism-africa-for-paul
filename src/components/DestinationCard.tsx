@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
+import ReactCountryFlag from "react-country-flag";
 import type { Destination } from "@/types/destination";
 import { getOptimizedImageUrl } from "@/lib/cloudinary";
 
@@ -18,8 +19,19 @@ interface DestinationCardProps {
   index?: number;
 }
 
+// Get country ISO code (alpha-2) based on country slug
+function getCountryCode(countrySlug: string): string {
+  const codeMap: Record<string, string> = {
+    'rwanda': 'RW',
+    'benin': 'BJ',
+  };
+  const normalizedSlug = countrySlug.toLowerCase().trim();
+  return codeMap[normalizedSlug] || '';
+}
+
 export default function DestinationCard({ destination, index = 0 }: DestinationCardProps) {
   const imageUrl = getOptimizedImageUrl(destination.image_url, 600, 400);
+  const countryCode = getCountryCode(destination.country_slug);
   
   // Truncate description to 100 characters max
   const truncatedDesc = destination.desc 
@@ -68,8 +80,19 @@ export default function DestinationCard({ destination, index = 0 }: DestinationC
         {/* Content overlay */}
         <div className="relative h-full flex flex-col justify-end p-0">
           {/* Country badge */}
-          <div className="absolute top-4 right-4 bg-primary-500/90 text-white px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm z-10">
-            {destination.country}
+          <div className="absolute top-4 right-4 bg-white text-black px-3 py-1 rounded-full text-xs font-semibold shadow-md z-10 flex items-center gap-1.5">
+            {countryCode && (
+              <ReactCountryFlag
+                countryCode={countryCode}
+                svg
+                style={{
+                  width: '1.2em',
+                  height: '1.2em',
+                }}
+                title={destination.country}
+              />
+            )}
+            <span className="capitalize">{destination.country_slug}</span>
           </div>
 
           {/* Title - position change on hover */}

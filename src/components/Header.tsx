@@ -7,6 +7,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,13 +30,20 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-40 w-full bg-white shadow-sm border-b border-secondary-200">
       <nav className="container-custom">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex items-center justify-between h-16 md:h-20 overflow-hidden">
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center text-2xl font-bold text-secondary-900 hover:text-primary-600 transition-colors"
+            className="flex items-center hover:opacity-80 transition-opacity"
           >
-            AFRICA TOURISM
+            <Image
+              src="/mylogo.png"
+              alt="AfricGuide"
+              width={350}
+              height={130}
+              className="h-28 w-auto object-contain"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}
