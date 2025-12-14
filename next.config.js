@@ -12,6 +12,21 @@ const nextConfig = {
         hostname: "**.cloudinary.com",
         pathname: "/**",
       },
+
+      {
+        protocol: "https",
+        hostname: "tourism.gov.ly",
+      },
+      {
+        protocol: "https",
+        hostname: "**.googleusercontent.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        pathname: "/**",
+      }
     ],
   },
   // Optimisation pour les images Cloudinary

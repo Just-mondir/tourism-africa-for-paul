@@ -22,8 +22,16 @@ interface DestinationCardProps {
 // Get country ISO code (alpha-2) based on country slug
 function getCountryCode(countrySlug: string): string {
   const codeMap: Record<string, string> = {
+    'algerie': 'DZ',
+    'botswana': 'BW',
+    'malawi': 'MW',
+    'mali': 'ML',
     'rwanda': 'RW',
+    'zambia': 'ZM',
     'benin': 'BJ',
+    'kenya': 'KE',
+    'libya': 'LY',
+    'zimbabwi': 'ZW',
   };
   const normalizedSlug = countrySlug.toLowerCase().trim();
   return codeMap[normalizedSlug] || '';
@@ -35,7 +43,7 @@ export default function DestinationCard({ destination, index = 0 }: DestinationC
   
   // Truncate description to 100 characters max
   const truncatedDesc = destination.desc 
-    ? (destination.desc.length > 100 ? destination.desc.substring(0, 100) + "..." : destination.desc)
+    ? (destination.desc.length > 80 ? destination.desc.substring(0, 80) + "..." : destination.desc)
     : null;
   
   // Generate a slug from places name for routing

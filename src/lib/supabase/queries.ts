@@ -21,8 +21,16 @@ export interface PaginationOptions {
  * List of African country tables in your database
  */
 const AFRICAN_COUNTRIES = [
+  { table: "Algerie", name: "Algerie", slug: "algerie" },
+  { table: "Botswana", name: "Botswana", slug: "botswana" },
+  { table: "Malawi", name: "Malawi", slug: "malawi" },
+  { table: "Mali", name: "Mali", slug: "mali" },
   { table: "Rwanda", name: "Rwanda", slug: "rwanda" },
+  { table: "Zambia", name: "Zambia", slug: "zambia" },
   { table: "benin", name: "benin", slug: "benin" },
+  { table: "kenya", name: "kenya", slug: "kenya" },
+  { table: "libya", name: "libya", slug: "libya" },
+  { table: "zimbabwi", name: "zimbabwi", slug: "zimbabwi" },
 ];
 
 /**
@@ -41,20 +49,16 @@ export async function getDestinations(
   const countryPromises = AFRICAN_COUNTRIES.map(async (country) => {
     const { data, error } = await supabase
       .from(country.table)
-      .select("places, desc, image_url");
+      .select("places, desc, image_url").limit(1).single();
 
-    if (error) {
-      console.error(`Error fetching from ${country.table}:`, error);
-      return [];
-    }
+      if (!data || error) return [];
 
-    // Transform data to include country info and generate unique id
-    return (data || []).map((place: AfricanPlace, idx: number) => ({
-      ...place,
-      id: `${country.slug}-${idx}-${Math.random().toString(36).substr(2, 9)}`, // Generate unique id
-      country: country.name,
-      country_slug: country.slug,
-    }));
+      return [{
+        ...data,
+        id: `${country.slug}-${Math.random().toString(36).substr(2, 9)}`,
+        country: country.name,
+        country_slug: country.slug,
+      }];
   });
 
   // Wait for all queries to complete
