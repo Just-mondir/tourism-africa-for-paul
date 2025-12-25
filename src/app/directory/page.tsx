@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import type { Metadata } from "next";
 import BusinessCard from "@/components/BusinessCard";
+import DirectoryHero from "@/components/DirectoryHero";
 import Loader from "@/components/Loader";
 import { getBusinesses } from "@/lib/supabase/queries";
 
@@ -24,29 +25,24 @@ export default async function DirectoryPage({
   const limit = 12;
 
   return (
-    <div className="section-spacing bg-white">
-      <div className="container-custom">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-secondary-900 mb-4">
-            African Directory
-          </h1>
-          <p className="text-lg text-secondary-600 max-w-2xl mx-auto">
-            Discover businesses, services, and establishments across Africa. 
-            From restaurants to hotels, find everything you need for your African adventure.
-          </p>
-        </div>
+    <div className="bg-white">
+      {/* Hero Section */}
+      <DirectoryHero />
 
-        {/* Business List */}
-        <Suspense
-          fallback={
-            <div className="flex items-center justify-center py-12">
-              <Loader size="lg" />
-            </div>
-          }
-        >
-          <BusinessList page={page} limit={limit} category={searchParams.category} />
-        </Suspense>
+      {/* Business List Section */}
+      <div className="section-spacing">
+        <div className="container-custom">
+          {/* Business List */}
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center py-12">
+                <Loader size="lg" />
+              </div>
+            }
+          >
+            <BusinessList page={page} limit={limit} category={searchParams.category} />
+          </Suspense>
+        </div>
       </div>
     </div>
   );

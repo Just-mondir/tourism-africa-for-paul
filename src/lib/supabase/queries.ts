@@ -170,14 +170,13 @@ export async function getBusinesses(
 
   // Count total
   const { count } = await supabase
-    .from("businesses")
+    .from("publicBusinesses")
     .select("*", { count: "exact", head: true });
 
   // Fetch businesses
   const { data, error } = await supabase
-    .from("businesses")
+    .from("publicBusinesses")
     .select("*")
-    .order("created_at", { ascending: false })
     .range(from, to);
 
   if (error) {
@@ -202,7 +201,7 @@ export async function getBusinessById(id: string): Promise<Business | null> {
   const supabase = await createClient();
 
   const { data, error } = await supabase
-    .from("businesses")
+    .from("publicBusinesses")
     .select("*")
     .eq("id", id)
     .single();

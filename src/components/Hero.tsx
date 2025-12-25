@@ -1,6 +1,6 @@
 /**
  * Hero Component - Homepage hero section for Africa Tourism
- * Uses background image from assets folder
+ * Uses background image from public folder
  */
 
 "use client";
@@ -9,7 +9,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
-import heroImage from "@/assets/hero.jpg";
 
 export default function Hero() {
   return (
@@ -17,7 +16,7 @@ export default function Hero() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src={heroImage}
+          src="/hero.jpg"
           alt="African landscape"
           fill
           className="object-cover"

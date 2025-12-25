@@ -12,39 +12,29 @@ import Loader from "@/components/Loader";
 import { getPosts } from "@/lib/supabase/queries";
 import Link from "next/link";
 import Image from "next/image";
-import attractiveImage from "@/assets/attractive-image.jpg";
-import familySafariImage from "@/assets/latestStories/family_safari.jpg";
-import groupBinocularsImage from "@/assets/latestStories/Group-of-tourists-sitting-in-jeep-and-looking-through-binoculars-Kruger-National-Park-Africa-shutterstock_145428859.jpg";
-import southAfricaPanoramaImage from "@/assets/latestStories/places-to-visit-in-south-africa-1715923864-785X440.jpg";
-import adventureConvoyImage from "@/assets/latestStories/9e1e0fa96372cc48493a54138d813d5b.jpg";
-import africaImage from "@/assets/Topdestinations/imageafrica.png";
-import egyptImage from "@/assets/Topdestinations/imageegypte.png";
-import moroccoImage from "@/assets/Topdestinations/imagemorroco.png";
-import southAfricaImage from "@/assets/Topdestinations/imagesouthafrica.png";
-import tanzaniaImage from "@/assets/Topdestinations/imagetanzania.png";
 
 const curatedStories = [
   {
     id: "family-safari",
-    image: familySafariImage,
+    image: "/latestStories/family_safari.jpg",
     title: "Family safari",
     description: "Families share laughs with local hosts during a peaceful savanna break.",
   },
   {
     id: "group-binoculars",
-    image: groupBinocularsImage,
+    image: "/latestStories/Group-of-tourists-sitting-in-jeep-and-looking-through-binoculars-Kruger-National-Park-Africa-shutterstock_145428859.jpg",
     title: "Guided wildlife watch",
     description: "Explorers scan the horizon from their 4x4 before the next leg of the trek.",
   },
   {
     id: "south-africa-panorama",
-    image: southAfricaPanoramaImage,
+    image: "/latestStories/places-to-visit-in-south-africa-1715923864-785X440.jpg",
     title: "South Africa vistas",
     description: "Golden cliffs and turquoise water spark ideas for a coastal road trip.",
   },
   {
     id: "adventure-convoy",
-    image: adventureConvoyImage,
+    image: "/latestStories/9e1e0fa96372cc48493a54138d813d5b.jpg",
     title: "Joyful convoy",
     description: "Two safari trucks full of energy—perfect for experiencing Africa with friends.",
   },
@@ -52,32 +42,32 @@ const curatedStories = [
 
 // Top African destinations section (static assets)
 function TopDestinations() {
-  // Images and titles from assets/Topdestinations
+  // Images and titles from public/Topdestinations
   const destinations = [
     {
-      image: africaImage,
+      image: "/Topdestinations/imageafrica.png",
       title: "Africa",
       description: "The heart of the continent, rich in culture and breathtaking landscapes.",
     },
     {
-      image: egyptImage,
+      image: "/Topdestinations/imageegypte.png",
       title: "Egypt",
       description: "Land of the Pharaohs, pyramids, and the majestic Nile.",
     },
     {
-      image: moroccoImage,
+      image: "/Topdestinations/imagemorroco.png",
       title: "Morocco",
       description: "A gateway to Africa, famous for its vibrant souks and Sahara dunes.",
     },
     {
-      image: southAfricaImage,
+      image: "/Topdestinations/imagesouthafrica.png",
       title: "South Africa",
       description: "A rainbow nation with stunning coastlines and wildlife.",
     },
     {
-      image: tanzaniaImage,
+      image: "/Topdestinations/imagetanzania.png",
       title: "Tanzania",
-      description: "Home to Kilimanjaro and the Serengeti’s great migration.",
+      description: "Home to Kilimanjaro and the Serengeti's great migration.",
     },
   ];
 
@@ -138,7 +128,7 @@ function LatestStories() {
           <div className="bg-white rounded-3xl shadow-sm overflow-hidden flex flex-col">
             <div className="relative w-full h-72 md:h-96">
               <Image
-                src={attractiveImage}
+                src="/attractive-image.jpg"
                 alt="Travelers enjoying a safari in Africa"
                 fill
                 className="object-cover"
