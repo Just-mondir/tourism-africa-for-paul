@@ -4,6 +4,7 @@
  */
 
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import type { Database } from "@/types/database";
 
@@ -13,6 +14,7 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 /**
  * Crée un client Supabase pour les Server Components et Server Actions
  * Gère automatiquement les cookies de session
+ * ⚠️ Ne peut pas être utilisé dans generateStaticParams (build time)
  */
 export async function createClient() {
   const cookieStore = await cookies();
@@ -39,5 +41,14 @@ export async function createClient() {
       },
     },
   });
+}
+
+/**
+ * Crée un client Supabase pour le build time (generateStaticParams)
+ * N'utilise pas de cookies - pour la génération statique uniquement
+ * ✅ Peut être utilisé dans generateStaticParams
+ */
+export function createBuildClient() {
+  return createSupabaseClient<Database>(supabaseUrl, supabaseAnonKey);
 }
 

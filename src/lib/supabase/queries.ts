@@ -218,7 +218,7 @@ export async function getBusinessById(id: string): Promise<Business | null> {
 }
 
 /**
- * Fetches blog posts (if you have a posts table)
+ * Fetches blog posts from the posts table
  * @param options - Pagination options
  * @returns List of posts with pagination metadata
  */
@@ -235,14 +235,11 @@ export async function getPosts(
   try {
     const { count } = await supabase
       .from("posts")
-      .select("*", { count: "exact", head: true })
-      .not("published_at", "is", null);
+      .select("title, paragraph, image_url", { count: "exact", head: true });
 
     const { data, error } = await supabase
       .from("posts")
-      .select("*")
-      .not("published_at", "is", null)
-      .order("published_at", { ascending: false })
+      .select("id, title, paragraph, image_url")
       .range(from, to);
 
     if (error) {
@@ -273,19 +270,72 @@ export async function getPosts(
 }
 
 /**
- * Fetches a post by slug
- * @param slug - Post slug
+ * Fetches blog posts for build time (generateStaticParams)
+ * Uses build client that doesn't require cookies
+ * @param options - Pagination options
+ * @returns List of posts with pagination metadata
+ */
+export async function getPostsForBuild(
+  options: PaginationOptions = {}
+): Promise<PostsResponse> {
+  const { limit = 10, page = 1 } = options;
+  const { createBuildClient } = await import("./server");
+  const supabase = createBuildClient();
+
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
+
+  // Check if posts table exists, if not return empty
+  try {
+    const { count } = await supabase
+      .from("posts")
+      .select("title, paragraph, image_url", { count: "exact", head: true });
+
+    const { data, error } = await supabase
+      .from("posts")
+      .select("id, title, paragraph, image_url")
+      .range(from, to);
+
+    if (error) {
+      console.error("Error fetching posts:", error);
+      return {
+        posts: [],
+        total: 0,
+        page,
+        limit,
+      };
+    }
+
+    return {
+      posts: (data || []) as Post[],
+      total: count || 0,
+      page,
+      limit,
+    };
+  } catch (error) {
+    // Posts table might not exist
+    return {
+      posts: [],
+      total: 0,
+      page,
+      limit,
+    };
+  }
+}
+
+/**
+ * Fetches a post by ID
+ * @param id - Post ID
  * @returns Post or null if not found
  */
-export async function getPostBySlug(slug: string): Promise<Post | null> {
+export async function getPostById(id: string): Promise<Post | null> {
   const supabase = await createClient();
 
   try {
     const { data, error } = await supabase
       .from("posts")
-      .select("*")
-      .eq("slug", slug)
-      .not("published_at", "is", null)
+      .select("id, title, paragraph, image_url")
+      .eq("id", id)
       .single();
 
     if (error) {

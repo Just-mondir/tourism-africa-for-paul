@@ -1,28 +1,29 @@
 /**
  * Hero Component - Homepage hero section for Africa Tourism
- * Uses background image from public folder
+ * Uses background video from public folder for better performance
  */
 
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
 
 export default function Hero() {
   return (
     <section className="relative min-h-[600px] md:min-h-[700px] flex items-center overflow-hidden">
-      {/* Background Image */}
+      {/* Background Video */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src="/hero.jpg"
-          alt="African landscape"
-          fill
-          className="object-cover"
-          priority
-          quality={90}
-        />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/HomeHero.mp4" type="video/mp4" />
+        </video>
         {/* Dark overlay for text readability */}
         <div className="absolute inset-0 bg-black/50 backdrop-blur-[1px]" />
       </div>
@@ -33,7 +34,7 @@ export default function Hero() {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.3 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-lg"
           >
             Discover{" "}
@@ -43,7 +44,7 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{ duration: 0.3, delay: 0.05 }}
             className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed drop-shadow-md"
           >
             Explore breathtaking destinations across Algeria, Rwanda, Benin, Libya, and Botswana. 
@@ -53,7 +54,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
             className="flex flex-col sm:flex-row gap-4"
           >
             <Link

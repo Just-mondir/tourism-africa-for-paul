@@ -5,16 +5,8 @@
 export interface Post {
   id: string;
   title: string;
-  slug: string;
-  excerpt: string | null;
-  content: string | null;
-  cover_image_url: string | null;
-  published_at: string | null;
-  created_at?: string;
-  updated_at?: string;
-  // Champs supplémentaires optionnels
-  author_id?: string;
-  metadata?: Record<string, unknown>;
+  paragraph: string | null;
+  image_url: string | null;
 }
 
 /**
