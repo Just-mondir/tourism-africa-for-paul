@@ -83,12 +83,24 @@ export default function AuthButton() {
   }
 
   if (user) {
-    const userName =
-      user.user_metadata?.full_name ||
-      user.user_metadata?.name ||
-      user.email?.split("@")[0] ||
-      "User";
-    const avatarUrl = user.user_metadata?.avatar_url || user.avatar_url;
+    // Safely extract user name with proper type checking
+    const fullName = user.user_metadata?.full_name;
+    const name = user.user_metadata?.name;
+    const emailPart = user.email?.split("@")[0];
+    
+    const userName = (typeof fullName === 'string' ? fullName : 
+                     typeof name === 'string' ? name : 
+                     typeof emailPart === 'string' ? emailPart : 
+                     "User");
+    
+    // Safely extract avatar URL with proper type checking
+    let avatarUrl: string | null = null;
+    const metadataAvatar = user.user_metadata?.avatar_url;
+    if (typeof metadataAvatar === 'string' && metadataAvatar.length > 0) {
+      avatarUrl = metadataAvatar;
+    } else if (typeof user.avatar_url === 'string' && user.avatar_url.length > 0) {
+      avatarUrl = user.avatar_url;
+    }
 
     return (
       <div className="flex items-center gap-3">
@@ -99,8 +111,8 @@ export default function AuthButton() {
           {avatarUrl ? (
             <div className="relative w-8 h-8 rounded-full overflow-hidden ring-2 ring-primary-500 ring-offset-2 group-hover:ring-primary-600 transition-all">
               <Image
-                src={avatarUrl}
-                alt={userName}
+                src={avatarUrl as string}
+                alt={String(userName)}
                 fill
                 className="object-cover"
                 sizes="32px"

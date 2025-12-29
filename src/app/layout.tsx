@@ -9,6 +9,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   title: "African Guide - Discover All African Countries",
   description:
     "Explore breathtaking destinations across all African countries. Discover the beauty, culture, and diversity of Africa through our comprehensive tourism platform.",
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://your-site.vercel.app",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://your-site.vercel.app",
     siteName: "African Guide",
     title: "African Guide - Discover All African Countries",
     description:
