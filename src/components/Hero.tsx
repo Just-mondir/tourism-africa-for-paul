@@ -22,7 +22,7 @@ export default function Hero() {
           preload="metadata"
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="/HomeHero.mp4" type="video/mp4" />
+          <source src="https://res.cloudinary.com/delrmrcey/video/upload/v1767031355/HomeHero_jbccm6.mp4" type="video/mp4" />
         </video>
         {/* Dark overlay for text readability */}
         <div className="absolute inset-0 bg-black/50 backdrop-blur-[1px]" />
