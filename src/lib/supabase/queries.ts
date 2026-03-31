@@ -8,6 +8,7 @@ import { createClient } from "./server";
 import type { Destination, DestinationsResponse, AfricanPlace } from "@/types/destination";
 import type { Business, BusinessesResponse } from "@/types/business";
 import type { Post, PostsResponse } from "@/types/post";
+import { generateSlug } from "@/lib/utils";
 
 /**
  * Pagination options for queries
@@ -139,6 +140,66 @@ export async function getDestinationsByCountry(
     page,
     limit,
   };
+}
+
+/**
+ * Fetches a single destination by its country and slugified place name
+ * Falls back to a simple in-memory match if the slug is not stored in the database
+ * @param countrySlug - Country slug (rwanda, benin, botswana, etc.)
+ * @param placeSlug - Slugified place name (ex: victoria-falls)
+ * @returns Destination details or null if not found
+ */
+export async function getDestinationBySlug(
+  countrySlug: string,
+  placeSlug: string
+): Promise<Destination | null> {
+  const country = AFRICAN_COUNTRIES.find(
+    (c) => c.slug.toLowerCase() === countrySlug.toLowerCase()
+  );
+
+  if (!country) {
+    return null;
+  }
+
+  const supabase = await createClient();
+  const normalizedSlug = generateSlug(placeSlug);
+
+  const { data, error } = await supabase
+    .from(country.table)
+    .select("places, desc, image_url");
+
+  if (error) {
+    console.error(`Error fetching destination ${placeSlug} from ${country.table}:`, error);
+    return null;
+  }
+
+  if (!data) {
+    return null;
+  }
+
+  const match = data.find((place) => {
+    const placeName = typeof place.places === "string" ? place.places : "";
+    return generateSlug(placeName) === normalizedSlug;
+  });
+
+  if (!match) {
+    return null;
+  }
+
+  const placeName = typeof match.places === "string" ? match.places : normalizedSlug.replace(/-/g, " ");
+  const description = typeof match.desc === "string" ? match.desc : null;
+  const imageUrl = typeof match.image_url === "string" ? match.image_url : null;
+
+  const destination: Destination = {
+    id: `${country.slug}-${normalizedSlug}`,
+    places: placeName,
+    desc: description,
+    image_url: imageUrl,
+    country: country.name,
+    country_slug: country.slug,
+  };
+
+  return destination;
 }
 
 /**

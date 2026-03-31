@@ -13,6 +13,7 @@ import { MapPin } from "lucide-react";
 import ReactCountryFlag from "react-country-flag";
 import type { Destination } from "@/types/destination";
 import { getOptimizedImageUrl } from "@/lib/cloudinary";
+import { generateSlug } from "@/lib/utils";
 
 interface DestinationCardProps {
   destination: Destination;
@@ -46,14 +47,8 @@ export default function DestinationCard({ destination, index = 0 }: DestinationC
     ? (destination.desc.length > 80 ? destination.desc.substring(0, 80) + "..." : destination.desc)
     : null;
   
-  // Generate a slug from places name for routing
-  const placeSlug = destination.places
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .trim();
+  // Consistent slug for detail route
+  const placeSlug = generateSlug(destination.places);
 
   return (
     <motion.div
