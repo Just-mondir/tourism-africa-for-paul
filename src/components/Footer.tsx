@@ -15,6 +15,7 @@ const footerLinks = {
   ],
   destinations: [
     { name: "All Destinations", href: "/destinations" },
+    { name: "All Experiences", href: "/experiences" },
     { name: "Algeria", href: "/destinations?country=algeria" },
     { name: "Rwanda", href: "/destinations?country=rwanda" },
     { name: "Benin", href: "/destinations?country=benin" },
@@ -103,7 +104,7 @@ export default function Footer() {
 
           {/* Destinations */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Countries</h3>
+            <h3 className="text-lg font-semibold mb-4">Explore</h3>
             <ul className="space-y-2">
               {footerLinks.destinations.map((link) => (
                 <li key={link.href}>

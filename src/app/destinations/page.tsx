@@ -8,8 +8,10 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Image from "next/image";
 import DestinationCard from "@/components/DestinationCard";
+import FlagshipSpotCard from "@/components/FlagshipSpotCard";
 import Loader from "@/components/Loader";
 import { getDestinations, getDestinationsByCountry, getCountries } from "@/lib/supabase/queries";
+import { FLAGSHIP_DESTINATIONS } from "@/lib/flagship-destinations";
 
 export const metadata: Metadata = {
   title: "African Destinations - Africa Tourism",
@@ -24,6 +26,7 @@ export default async function DestinationsPage({
   const page = parseInt(searchParams.page || "1", 10);
   const limit = 12;
   const countryFilter = searchParams.country || "";
+  const flagshipSpots = FLAGSHIP_DESTINATIONS;
 
   return (
     <div className="bg-white">
@@ -67,6 +70,31 @@ export default async function DestinationsPage({
 
       <div className="pt-8 md:pt-12 pb-16 md:pb-24">
         <div className="container-custom">
+          <section className="mb-16">
+            <div className="text-center mb-10">
+              <p className="text-sm uppercase tracking-[0.3em] text-secondary-500 mb-3">
+                Flagship guides
+              </p>
+              <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-3">
+                Signature destinations by country
+              </h2>
+              <p className="text-secondary-600 max-w-2xl mx-auto">
+                Start with a curated, in-depth guide to the most iconic spot in each featured country.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {flagshipSpots.map((spot) => (
+                <FlagshipSpotCard
+                  key={`${spot.countrySlug}-${spot.slug}`}
+                  title={spot.title}
+                  description={spot.subtitle}
+                  image={spot.heroImage}
+                  country={spot.countryName}
+                  href={`/destinations/${spot.countrySlug}/${spot.slug}`}
+                />
+              ))}
+            </div>
+          </section>
 
           {/* Header */}
           <div className="text-center mb-12">
