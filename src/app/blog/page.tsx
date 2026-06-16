@@ -16,7 +16,7 @@ export default function BlogPage() {
   return (
     <>
       <BlogHero />
-      <div className="section-spacing bg-white">
+      <div id="blog-content" className="section-spacing bg-white scroll-mt-20">
         <div className="container-custom">
           {/* Blog List with Infinite Scroll */}
           <BlogListInfinite />
