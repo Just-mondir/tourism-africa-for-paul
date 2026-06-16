@@ -412,3 +412,47 @@ export async function getPostById(id: string): Promise<Post | null> {
     return null;
   }
 }
+
+/**
+ * Fetches the image URLs for the flagship destinations
+ * @returns Record mapping place slug to image_url
+ */
+export async function getFlagshipImages(): Promise<Record<string, string>> {
+  const supabase = await createClient();
+  const imagesMap: Record<string, string> = {};
+
+  // Define the flagship places we need to fetch
+  const flagshipTargets = [
+    { table: "Algerie", slug: "tassili-najjer" },
+    { table: "Rwanda", slug: "volcanoes-national-park" },
+    { table: "benin", slug: "ouidah-coast-and-vodun-heritage" },
+    { table: "libya", slug: "leptis-magna" },
+    { table: "Botswana", slug: "okavango-delta" },
+    { table: "Malawi", slug: "lake-malawi" },
+    { table: "Mali", slug: "djenne" },
+    { table: "Zambia", slug: "south-luangwa-national-park" },
+    { table: "kenya", slug: "masai-mara" },
+    { table: "zimbabwi", slug: "hwange-national-park" },
+  ];
+
+  const fetchPromises = flagshipTargets.map(async (target) => {
+    const { data, error } = await supabase
+      .from(target.table)
+      .select("places, image_url");
+      
+    if (error || !data) return;
+
+    // Find the matching place by slug
+    const match = data.find((place) => {
+      const placeName = typeof place.places === "string" ? place.places : "";
+      return generateSlug(placeName) === target.slug;
+    });
+
+    if (match && match.image_url) {
+      imagesMap[target.slug] = match.image_url;
+    }
+  });
+
+  await Promise.all(fetchPromises);
+  return imagesMap;
+}

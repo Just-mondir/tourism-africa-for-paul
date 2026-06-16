@@ -10,7 +10,7 @@ import Image from "next/image";
 import DestinationCard from "@/components/DestinationCard";
 import FlagshipSpotCard from "@/components/FlagshipSpotCard";
 import Loader from "@/components/Loader";
-import { getDestinations, getDestinationsByCountry, getCountries } from "@/lib/supabase/queries";
+import { getDestinations, getDestinationsByCountry, getCountries, getFlagshipImages } from "@/lib/supabase/queries";
 import { FLAGSHIP_DESTINATIONS } from "@/lib/flagship-destinations";
 
 export const metadata: Metadata = {
@@ -27,6 +27,7 @@ export default async function DestinationsPage({
   const limit = 12;
   const countryFilter = searchParams.country || "";
   const flagshipSpots = FLAGSHIP_DESTINATIONS;
+  const flagshipImages = await getFlagshipImages();
 
   return (
     <div className="bg-white">
@@ -88,7 +89,7 @@ export default async function DestinationsPage({
                   key={`${spot.countrySlug}-${spot.slug}`}
                   title={spot.title}
                   description={spot.subtitle}
-                  image={spot.heroImage}
+                  image={flagshipImages[spot.slug] || spot.heroImage}
                   country={spot.countryName}
                   href={`/destinations/${spot.countrySlug}/${spot.slug}`}
                 />
