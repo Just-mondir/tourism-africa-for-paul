@@ -1359,25 +1359,25 @@ export const FLAGSHIP_DESTINATIONS: FlagshipDestination[] = [
     lodging: {
       luxury: [
         {
-          name: "Lodges de luxe pres des points d'eau et zones de safari.",
+          name: "Luxury lodges near waterholes and safari zones.",
           url: "https://www.google.com/maps/search/?api=1&query=luxury%20lodge%20hwange%20zimbabwe",
         },
       ],
       midrange: [
         {
-          name: "Lodges milieu de gamme autour du parc.",
+          name: "Mid-range lodges around the park.",
           url: "https://www.google.com/maps/search/?api=1&query=midrange%20lodge%20hwange%20zimbabwe",
         },
       ],
       budget: [
         {
-          name: "Rest camps et tentes simples pour voyageurs economes.",
+          name: "Rest camps and simple tents for budget travelers.",
           url: "https://www.google.com/maps/search/?api=1&query=budget%20camp%20hwange%20zimbabwe",
         },
       ],
       local: [
         {
-          name: "Camps communautaires et hebergements locaux.",
+          name: "Community camps and local accommodations.",
           url: "https://www.google.com/maps/search/?api=1&query=community%20lodge%20hwange%20zimbabwe",
         },
       ],
@@ -1385,32 +1385,32 @@ export const FLAGSHIP_DESTINATIONS: FlagshipDestination[] = [
     dining: {
       best: [
         {
-          name: "Repas inclus en lodge ou camp.",
+          name: "Meals included at lodge or camp.",
           url: "https://www.google.com/maps/search/?api=1&query=lodge%20dining%20hwange",
         },
         {
-          name: "Restaurants a Victoria Falls pour plus de choix.",
+          name: "Restaurants in Victoria Falls for more variety.",
           url: "https://www.google.com/maps/search/?api=1&query=restaurants%20victoria%20falls%20zimbabwe",
         },
       ],
       specialties: [
-        "Sadza, viandes grillees, et legumes locaux.",
-        "Snacks de marche et boissons locales.",
+        "Sadza, grilled meats, and local vegetables.",
+        "Market snacks and local beverages.",
       ],
-      mealBudget: "Repas en lodge inclus; a Victoria Falls: moyen.",
+      mealBudget: "Lodge meals included; Victoria Falls: moderate.",
     },
     budget: {
       activities: [
-        "Game drives guides: moyen.",
-        "Excursion Victoria Falls: moyen.",
+        "Guided game drives: moderate.",
+        "Victoria Falls excursion: moderate.",
       ],
       daily: [
-        "Economique: moyen avec rest camp.",
-        "Moyen: moyen a eleve avec lodge confort.",
-        "Premium: eleve avec lodge de luxe.",
+        "Budget: moderate with rest camp.",
+        "Mid-range: moderate to high with comfortable lodge.",
+        "Premium: high with luxury lodge.",
       ],
       entrance: [
-        "Frais de parc: moyen.",
+        "Park fees: moderate.",
       ],
     },
     safety: [
@@ -1438,6 +1438,270 @@ export const FLAGSHIP_DESTINATIONS: FlagshipDestination[] = [
       },
     ],
   },
+  {
+    countrySlug: "morocco",
+    countryName: "Morocco",
+    slug: "marrakech",
+    title: "Marrakech",
+    subtitle: "Vibrant souks, stunning palaces, and the gateway to the Sahara.",
+    heroImage: "/destinationHero.webp",
+    bestTime: "March to May & September to November",
+    idealStay: "3 to 4 days",
+    base: "Medina",
+    overview: [
+      "Marrakech is a sensory overload of colors, sounds, and smells. The heart of the city is the bustling Jemaa el-Fnaa square.",
+      "Explore the maze-like alleys of the medina, visit historical palaces like Bahia, and relax in the beautiful Majorelle Garden.",
+    ],
+    attractions: [
+      {
+        title: "Jemaa el-Fnaa",
+        details: "The main square featuring food stalls, snake charmers, and street performers.",
+      },
+      {
+        title: "Majorelle Garden",
+        details: "A stunning botanical garden created by Jacques Majorelle and later restored by Yves Saint Laurent.",
+      },
+      {
+        title: "Bahia Palace",
+        details: "A late 19th-century palace showcasing incredible Moroccan architecture and tilework.",
+      },
+      {
+        title: "Koutoubia Mosque",
+        details: "The largest mosque in Marrakech, known for its impressive minaret.",
+      },
+      {
+        title: "The Souks",
+        details: "A labyrinth of markets selling spices, textiles, leather goods, and ceramics.",
+      },
+    ],
+    logistics: [
+      "Fly into Marrakech Menara Airport (RAK).",
+      "Most of the medina is pedestrian-only, so prepare for lots of walking.",
+      "Taxis are available outside the medina, but always agree on a price or insist on the meter.",
+      "French is widely spoken, and Arabic is the main language. Basic English is understood in tourist areas.",
+    ],
+    stay: [
+      "Stay in a traditional riad inside the medina for an authentic experience.",
+      "Gueliz offers modern hotels and a more European feel.",
+      "The Palmeraie is ideal for luxury resorts outside the city center.",
+    ],
+    eat: [
+      "Try Tagine and Couscous at local restaurants.",
+      "Eat at the food stalls in Jemaa el-Fnaa at night for a lively experience.",
+      "Enjoy mint tea at a rooftop cafe overlooking the medina.",
+    ],
+    costs: [
+      { label: "Accommodation", range: "Budget to Luxury", notes: "Riads range from cheap to very expensive." },
+      { label: "Food", range: "Low to Moderate", notes: "Street food is cheap, fine dining is moderate." },
+      { label: "Attractions", range: "Low", notes: "Most palace and garden entrance fees are low." },
+    ],
+    lodging: {
+      luxury: [
+        {
+          name: "Luxury Riads and Resorts",
+          url: "https://www.google.com/maps/search/?api=1&query=luxury+hotels+marrakech",
+        },
+      ],
+      midrange: [
+        {
+          name: "Boutique Riads",
+          url: "https://www.google.com/maps/search/?api=1&query=boutique+riads+marrakech",
+        },
+      ],
+      budget: [
+        {
+          name: "Hostels and Budget Guesthouses",
+          url: "https://www.google.com/maps/search/?api=1&query=hostels+marrakech",
+        },
+      ],
+      local: [
+        {
+          name: "Local Homestays",
+          url: "https://www.google.com/maps/search/?api=1&query=guesthouses+marrakech",
+        },
+      ],
+    },
+    dining: {
+      best: [
+        {
+          name: "Rooftop Cafes in the Medina",
+          url: "https://www.google.com/maps/search/?api=1&query=rooftop+restaurants+medina+marrakech",
+        },
+        {
+          name: "Gueliz Modern Restaurants",
+          url: "https://www.google.com/maps/search/?api=1&query=restaurants+gueliz+marrakech",
+        },
+      ],
+      specialties: [
+        "Lamb Tagine with Prunes",
+        "Chicken Tagine with Preserved Lemons",
+        "Pastilla (sweet and savory pie)",
+        "Moroccan Mint Tea",
+      ],
+      mealBudget: "Cheap in the square, moderate in riads, expensive in luxury resorts.",
+    },
+    budget: {
+      activities: [
+        "Palace Entry: Low.",
+        "Guided Tours: Moderate.",
+      ],
+      daily: [
+        "Budget: $30-$50.",
+        "Mid-range: $80-$150.",
+        "Luxury: $250+.",
+      ],
+      entrance: [
+        "Museums and Gardens: Low.",
+      ],
+    },
+    safety: [
+      "Be aware of pickpockets in crowded souks and Jemaa el-Fnaa.",
+      "Politely decline unwanted guides or people offering directions for money.",
+      "Drink bottled water and be cautious with raw foods.",
+    ],
+    faqs: [
+      {
+        question: "Is Marrakech safe for tourists?",
+        answer: "Yes, it is generally safe, but standard precautions against petty theft should be taken.",
+      },
+      {
+        question: "Do I need to cover up in Marrakech?",
+        answer: "While Marrakech is relatively liberal, dressing modestly (covering shoulders and knees) is respectful.",
+      },
+    ],
+  },
+  {
+    countrySlug: "egypt",
+    countryName: "Egypt",
+    slug: "pyramids-of-giza",
+    title: "Pyramids of Giza",
+    subtitle: "The last remaining wonder of the ancient world.",
+    heroImage: "/destinationHero.webp",
+    bestTime: "October to April",
+    idealStay: "1 to 2 days (as part of a Cairo trip)",
+    base: "Giza or Cairo",
+    overview: [
+      "The Pyramids of Giza and the Great Sphinx are iconic symbols of ancient Egypt, standing on the Giza Plateau just outside Cairo.",
+      "Built as massive tombs for pharaohs, these structures are a testament to the engineering brilliance of the ancient world.",
+    ],
+    attractions: [
+      {
+        title: "The Great Pyramid of Khufu",
+        details: "The largest and oldest of the three pyramids, and the only surviving Wonder of the Ancient World.",
+      },
+      {
+        title: "Pyramid of Khafre",
+        details: "The second-largest pyramid, easily recognizable by the original casing stones remaining at its peak.",
+      },
+      {
+        title: "Pyramid of Menkaure",
+        details: "The smallest of the three main pyramids.",
+      },
+      {
+        title: "The Great Sphinx",
+        details: "A massive limestone statue with the body of a lion and the head of a pharaoh.",
+      },
+      {
+        title: "Solar Boat Museum",
+        details: "Houses a reconstructed ancient ship found buried near the Great Pyramid.",
+      },
+    ],
+    logistics: [
+      "Fly into Cairo International Airport (CAI).",
+      "Take a taxi, Uber, or join a guided tour to reach the Giza Plateau from Cairo.",
+      "The site is vast; you can walk, hire a horse or camel, or take a taxi between the main spots.",
+      "Arrive early in the morning to avoid the heat and the largest crowds.",
+    ],
+    stay: [
+      "Stay in Giza for views of the pyramids from your hotel.",
+      "Stay in Downtown Cairo for easy access to the Egyptian Museum and city life.",
+    ],
+    eat: [
+      "Many hotels in Giza have rooftop restaurants with pyramid views.",
+      "Try Koshary, a popular Egyptian street food dish.",
+      "Eat at established restaurants to avoid stomach issues.",
+    ],
+    costs: [
+      { label: "Accommodation", range: "Budget to Luxury", notes: "Hotels with pyramid views cost more." },
+      { label: "Entrance Fees", range: "Moderate", notes: "General entry fee, plus extra fees to go inside the pyramids." },
+      { label: "Transport", range: "Low", notes: "Ubers are inexpensive." },
+    ],
+    lodging: {
+      luxury: [
+        {
+          name: "Luxury Hotels with Pyramid Views",
+          url: "https://www.google.com/maps/search/?api=1&query=luxury+hotels+giza",
+        },
+      ],
+      midrange: [
+        {
+          name: "Comfortable Giza Hotels",
+          url: "https://www.google.com/maps/search/?api=1&query=hotels+giza",
+        },
+      ],
+      budget: [
+        {
+          name: "Hostels and Budget Inns",
+          url: "https://www.google.com/maps/search/?api=1&query=budget+hotels+giza",
+        },
+      ],
+      local: [
+        {
+          name: "Guesthouses near the entrance",
+          url: "https://www.google.com/maps/search/?api=1&query=guesthouses+giza",
+        },
+      ],
+    },
+    dining: {
+      best: [
+        {
+          name: "Rooftop Restaurants in Giza",
+          url: "https://www.google.com/maps/search/?api=1&query=restaurants+with+pyramid+view",
+        },
+        {
+          name: "Traditional Egyptian Restaurants",
+          url: "https://www.google.com/maps/search/?api=1&query=egyptian+restaurants+cairo",
+        },
+      ],
+      specialties: [
+        "Koshary (rice, lentils, pasta, tomato sauce)",
+        "Ful Medames (fava beans)",
+        "Mahshi (stuffed vegetables)",
+        "Mint Tea",
+      ],
+      mealBudget: "Low for street food, moderate for tourist restaurants.",
+    },
+    budget: {
+      activities: [
+        "Plateau Entry: Moderate.",
+        "Inside Pyramids: Moderate to High.",
+        "Camel Ride: Moderate (negotiate firmly).",
+      ],
+      daily: [
+        "Budget: $40-$60.",
+        "Mid-range: $80-$150.",
+        "Luxury: $250+.",
+      ],
+      entrance: [
+        "Giza Plateau ticket required.",
+      ],
+    },
+    safety: [
+      "Beware of aggressive touts and scammers offering camel rides or 'official' tours.",
+      "Agree on all prices for services (rides, photos) before committing.",
+      "Stay hydrated and wear sunscreen; there is very little shade.",
+    ],
+    faqs: [
+      {
+        question: "Can you go inside the pyramids?",
+        answer: "Yes, you can buy an extra ticket to enter the Great Pyramid or the others, but it is cramped and hot.",
+      },
+      {
+        question: "How much is a camel ride?",
+        answer: "There is an official government-set price, but you must still negotiate and confirm the price (and currency) beforehand.",
+      },
+    ],
+  }
 ];
 
 export function getFlagshipDestination(countrySlug: string, placeSlug: string): FlagshipDestination | null {

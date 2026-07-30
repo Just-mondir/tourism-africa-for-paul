@@ -34,6 +34,32 @@ export default function ExperiencesPage() {
         </div>
       </div>
 
+      {/* Map Section */}
+      <div className="pt-16 pb-8 md:pt-20 md:pb-10">
+        <div className="container-custom">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-4xl font-bold text-secondary-900 font-display">
+              Explore the Continent
+            </h2>
+            <p className="text-secondary-600 mt-3 max-w-2xl mx-auto">
+              Navigate through Africa's diverse landscapes and find your next adventure.
+            </p>
+          </div>
+          <div className="rounded-2xl overflow-hidden shadow-md border border-secondary-100 max-w-5xl mx-auto h-[400px] md:h-[500px]">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d33190861.94235282!2d4.240742111440625!3d-1.7454228965023908!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x10a06c0a948cf5d5%3A0x108270c99e90f0b3!2sAfrica!5e0!3m2!1sen!2sma!4v1716382000000!5m2!1sen!2sma" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Map of Africa"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
       {/* Main Content - Grid of Experiences */}
       <div className="py-16 md:py-24">
         <div className="container-custom">

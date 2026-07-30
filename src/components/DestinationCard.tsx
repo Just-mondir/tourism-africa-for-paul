@@ -1,15 +1,15 @@
 /**
- * DestinationCard Component - Card to display an African destination/place
- * Uses fields: places, desc, image_url from country tables
- * Image as background, title visible, description expands on hover (100 chars max)
+ * DestinationCard Component - go2africa-inspired card layout
+ * Text/title above the image, image in the middle with hover effect,
+ * highlights/tags below — clean white card style.
  */
 
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
+import FallbackImage from "@/components/FallbackImage";
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { MapPin, ArrowRight } from "lucide-react";
 import ReactCountryFlag from "react-country-flag";
 import type { Destination } from "@/types/destination";
 import { getOptimizedImageUrl } from "@/lib/cloudinary";
@@ -23,108 +23,115 @@ interface DestinationCardProps {
 // Get country ISO code (alpha-2) based on country slug
 function getCountryCode(countrySlug: string): string {
   const codeMap: Record<string, string> = {
-    'algerie': 'DZ',
-    'botswana': 'BW',
-    'malawi': 'MW',
-    'mali': 'ML',
-    'rwanda': 'RW',
-    'zambia': 'ZM',
-    'benin': 'BJ',
-    'kenya': 'KE',
-    'libya': 'LY',
-    'zimbabwi': 'ZW',
+    algerie: "DZ",
+    botswana: "BW",
+    egypt: "EG",
+    malawi: "MW",
+    mali: "ML",
+    morocco: "MA",
+    rwanda: "RW",
+    zambia: "ZM",
+    benin: "BJ",
+    kenya: "KE",
+    libya: "LY",
+    zimbabwi: "ZW",
   };
   const normalizedSlug = countrySlug.toLowerCase().trim();
-  return codeMap[normalizedSlug] || '';
+  return codeMap[normalizedSlug] || "";
 }
 
-export default function DestinationCard({ destination, index = 0 }: DestinationCardProps) {
+export default function DestinationCard({
+  destination,
+  index = 0,
+}: DestinationCardProps) {
   const imageUrl = getOptimizedImageUrl(destination.image_url, 600, 400);
   const countryCode = getCountryCode(destination.country_slug);
-  
-  // Truncate description to 100 characters max
-  const truncatedDesc = destination.desc 
-    ? (destination.desc.length > 80 ? destination.desc.substring(0, 80) + "..." : destination.desc)
+
+  // Truncate description
+  const truncatedDesc = destination.desc
+    ? destination.desc.length > 90
+      ? destination.desc.substring(0, 90) + "…"
+      : destination.desc
     : null;
-  
+
   // Consistent slug for detail route
   const placeSlug = generateSlug(destination.places);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
+      transition={{ duration: 0.45, delay: index * 0.08 }}
       className="group"
     >
       <Link
         href={`/destinations/${destination.country_slug}/${placeSlug}`}
-        className="block relative rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 h-80"
+        className="block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-secondary-100 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
       >
-        {/* Image as background */}
-        <div className="absolute inset-0">
-          {destination.image_url ? (
-            <Image
-              src={imageUrl}
-              alt={destination.places}
-              fill
-              className="object-cover group-hover:scale-110 transition-transform duration-500"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-secondary-200 to-secondary-300">
-              <MapPin className="w-16 h-16 text-secondary-400" />
-            </div>
-          )}
-          {/* Dark overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 group-hover:from-black/90 group-hover:via-black/60 group-hover:to-black/30 transition-all duration-300" />
-        </div>
-
-        {/* Content overlay */}
-        <div className="relative h-full flex flex-col justify-end p-0">
+        {/* ── TOP TEXT SECTION (like go2africa: info above the image) ── */}
+        <div className="px-5 pt-5 pb-4">
           {/* Country badge */}
-          <div className="absolute top-4 right-4 bg-white text-black px-3 py-1 rounded-full text-xs font-semibold shadow-md z-10 flex items-center gap-1.5">
+          <div className="flex items-center gap-2 mb-2">
             {countryCode && (
               <ReactCountryFlag
                 countryCode={countryCode}
                 svg
-                style={{
-                  width: '1.2em',
-                  height: '1.2em',
-                }}
+                style={{ width: "1.1em", height: "1.1em", borderRadius: "2px" }}
                 title={destination.country}
               />
             )}
-            <span className="capitalize">{destination.country_slug}</span>
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary-500">
+              {destination.country_slug.replace(/-/g, " ")}
+            </span>
           </div>
 
-          {/* Title - position change on hover */}
-          <div
-            className="absolute left-0 w-full px-6 z-10 transition-all duration-300"
-            style={{
-              bottom: '1rem',
-            }}
-          >
-            <h3
-              className="text-base md:text-lg font-bold text-white drop-shadow-lg bg-black/40 rounded-b-xl py-2 px-3 w-full transition-all duration-300 group-hover:translate-y-[-5.5rem] group-hover:rounded-t-xl group-hover:rounded-b-none"
-              style={{
-                transition: 'transform 0.3s',
-              }}
-            >
-              {destination.places}
-            </h3>
-          </div>
+          {/* Place title — Playfair Display editorial style */}
+          <h3 className="font-display text-xl md:text-2xl font-bold text-secondary-900 leading-snug group-hover:text-primary-600 transition-colors duration-200 line-clamp-2">
+            {destination.places}
+          </h3>
+        </div>
 
-          {/* Description - expands on hover */}
-          {truncatedDesc && (
-            <div className="overflow-hidden relative z-10 px-6 pb-6">
-              <div className="transform transition-all duration-300 ease-in-out translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
-                <p className="text-white/95 text-sm md:text-base leading-relaxed drop-shadow-md pt-2">
-                  {truncatedDesc}
-                </p>
-              </div>
+        {/* ── IMAGE SECTION ── */}
+        <div className="relative h-52 w-full overflow-hidden">
+          {destination.image_url ? (
+            <FallbackImage
+              src={imageUrl}
+              alt={destination.places}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-secondary-100 to-secondary-200">
+              <MapPin className="w-12 h-12 text-secondary-300" />
             </div>
           )}
+          {/* Subtle top fade for depth */}
+          <div className="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-white/30 to-transparent pointer-events-none" />
+        </div>
+
+        {/* ── BOTTOM INFO SECTION ── */}
+        <div className="px-5 py-4">
+          {truncatedDesc && (
+            <>
+              <p className="text-xs font-semibold uppercase tracking-wider text-secondary-500 mb-1">
+                Highlights
+              </p>
+              <p className="text-sm text-secondary-600 leading-relaxed line-clamp-2">
+                {truncatedDesc}
+              </p>
+            </>
+          )}
+
+          <div className="flex items-center justify-between mt-4 pt-3 border-t border-secondary-100">
+            <span className="text-xs text-secondary-400 flex items-center gap-1">
+              <MapPin className="w-3.5 h-3.5 text-primary-400" />
+              {destination.country_slug.replace(/-/g, " ")}
+            </span>
+            <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary-600 group-hover:gap-2 transition-all duration-200">
+              Explore <ArrowRight className="w-3.5 h-3.5" />
+            </span>
+          </div>
         </div>
       </Link>
     </motion.div>

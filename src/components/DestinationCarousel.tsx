@@ -1,16 +1,65 @@
 "use client";
 import React, { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
 
 interface StaticDestinationCardProps {
   image: StaticImageData | string;
   title: string;
   description: string;
+  href?: string;
 }
 
 interface CarouselProps {
   destinations: StaticDestinationCardProps[];
+}
+
+function StaticCard({ dest }: { dest: StaticDestinationCardProps }) {
+  return (
+    <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-secondary-100 flex-shrink-0 w-72 md:w-80 cursor-pointer">
+      {/* Top text section */}
+      <div className="px-5 pt-5 pb-4">
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary-500 mb-2">
+          Top Destination
+        </p>
+        <h3 className="font-display text-xl md:text-2xl font-bold text-secondary-900 leading-snug group-hover:text-primary-600 transition-colors duration-200">
+          {dest.title}
+        </h3>
+      </div>
+
+      {/* Image section */}
+      <div className="relative h-48 w-full overflow-hidden">
+        <Image
+          src={dest.image}
+          alt={dest.title}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
+          sizes="320px"
+        />
+        <div className="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-white/20 to-transparent pointer-events-none" />
+      </div>
+
+      {/* Bottom info section */}
+      <div className="px-5 py-4">
+        {dest.description && (
+          <>
+            <p className="text-xs font-semibold uppercase tracking-wider text-secondary-500 mb-1">
+              Highlights
+            </p>
+            <p className="text-sm text-secondary-600 leading-relaxed line-clamp-2">
+              {dest.description}
+            </p>
+          </>
+        )}
+        <div className="flex items-center justify-end mt-4 pt-3 border-t border-secondary-100">
+          <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary-600 group-hover:gap-2 transition-all duration-200">
+            Explore <ArrowRight className="w-3.5 h-3.5" />
+          </span>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function DestinationCarousel({ destinations }: CarouselProps) {
@@ -26,7 +75,6 @@ export default function DestinationCarousel({ destinations }: CarouselProps) {
     setStartIndex((prev) => (prev + 1) % total);
   };
 
-  // Compute visible cards (looping)
   const visibleDestinations = Array.from({ length: visibleCount }, (_, i) =>
     destinations[(startIndex + i) % total]
   );
@@ -35,58 +83,31 @@ export default function DestinationCarousel({ destinations }: CarouselProps) {
     <div className="flex items-center justify-center gap-4 w-full">
       <button
         onClick={handlePrev}
-        className="p-2 rounded-full bg-white shadow hover:bg-primary-100 transition-colors"
+        className="p-2.5 rounded-full bg-white shadow-md hover:bg-primary-50 hover:shadow-lg transition-all duration-200 border border-secondary-100"
         aria-label="Previous"
       >
-        <ChevronLeft className="w-6 h-6 text-primary-600" />
+        <ChevronLeft className="w-5 h-5 text-primary-600" />
       </button>
+
       <div className="flex gap-6 w-full max-w-5xl justify-center">
-        {visibleDestinations.map((dest, idx) => (
-          <div
-            key={dest.title}
-            className="relative rounded-xl overflow-hidden shadow-md h-96 w-80 bg-white group flex-shrink-0"
-          >
-            <div className="absolute inset-0">
-              <Image
-                src={dest.image}
-                alt={dest.title}
-                fill
-                className="object-cover group-hover:scale-110 transition-transform duration-500"
-                sizes="320px"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 group-hover:from-black/90 group-hover:via-black/60 group-hover:to-black/30 transition-all duration-300" />
-            </div>
-            <div className="relative h-full flex flex-col justify-end p-0">
-              <div
-                className="absolute left-0 w-full px-6 z-10 transition-all duration-300"
-                style={{ bottom: "1rem" }}
-              >
-                <h3
-                  className="text-lg md:text-xl font-bold text-white drop-shadow-lg bg-black/40 rounded-b-xl py-2 px-3 w-full transition-all duration-300 group-hover:translate-y-[-5.5rem] group-hover:rounded-t-xl group-hover:rounded-b-none"
-                  style={{ transition: "transform 0.3s" }}
-                >
-                  {dest.title}
-                </h3>
-              </div>
-              {dest.description && (
-                <div className="overflow-hidden relative z-10 px-6 pb-6">
-                  <div className="transform transition-all duration-300 ease-in-out translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
-                    <p className="text-white/95 text-base leading-relaxed drop-shadow-md pt-2">
-                      {dest.description}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
+        {visibleDestinations.map((dest, idx) => {
+          if (dest.href) {
+            return (
+              <Link key={`${dest.title}-${idx}`} href={dest.href} className="block">
+                <StaticCard dest={dest} />
+              </Link>
+            );
+          }
+          return <StaticCard key={`${dest.title}-${idx}`} dest={dest} />;
+        })}
       </div>
+
       <button
         onClick={handleNext}
-        className="p-2 rounded-full bg-white shadow hover:bg-primary-100 transition-colors"
+        className="p-2.5 rounded-full bg-white shadow-md hover:bg-primary-50 hover:shadow-lg transition-all duration-200 border border-secondary-100"
         aria-label="Next"
       >
-        <ChevronRight className="w-6 h-6 text-primary-600" />
+        <ChevronRight className="w-5 h-5 text-primary-600" />
       </button>
     </div>
   );

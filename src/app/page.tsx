@@ -48,26 +48,31 @@ function TopDestinations() {
       image: "/Topdestinations/imageafrica.png",
       title: "Africa",
       description: "The heart of the continent, rich in culture and breathtaking landscapes.",
+      href: "/destinations",
     },
     {
       image: "/Topdestinations/imageegypte.png",
       title: "Egypt",
       description: "Land of the Pharaohs, pyramids, and the majestic Nile.",
+      href: "/destinations?country=egypt",
     },
     {
       image: "/Topdestinations/imagemorroco.png",
       title: "Morocco",
       description: "A gateway to Africa, famous for its vibrant souks and Sahara dunes.",
+      href: "/destinations?country=morocco",
     },
     {
       image: "/Topdestinations/imagesouthafrica.png",
       title: "South Africa",
       description: "A rainbow nation with stunning coastlines and wildlife.",
+      href: "/destinations",
     },
     {
       image: "/Topdestinations/imagetanzania.png",
       title: "Tanzania",
       description: "Home to Kilimanjaro and the Serengeti's great migration.",
+      href: "/destinations",
     },
   ];
 
@@ -95,6 +100,7 @@ function TopDestinations() {
             image: d.image,
             title: d.title,
             description: d.description,
+            href: d.href,
           }))}
         />
       </div>

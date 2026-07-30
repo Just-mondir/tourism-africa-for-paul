@@ -6,6 +6,7 @@ export interface AfricanPlace {
   places: string; // The name of the place
   desc: string | null; // Description field
   image_url: string | null;
+  images?: string[] | null; // Multiple gallery images (optional DB column)
   // Additional fields that might exist in your tables
   [key: string]: unknown;
 }
@@ -18,6 +19,7 @@ export interface Destination {
   places: string;
   desc: string | null; // Description field from database
   image_url: string | null;
+  images?: string[] | null; // Multiple gallery images (optional DB column)
   country: string; // Country name (Algerie, Rwanda, etc.)
   country_slug: string; // Lowercase country name for routing
 }

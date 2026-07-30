@@ -15,7 +15,7 @@ import { FLAGSHIP_DESTINATIONS } from "@/lib/flagship-destinations";
 
 export const metadata: Metadata = {
   title: "African Destinations - Africa Tourism",
-  description: "Explore amazing destinations across Algeria, Rwanda, Benin, Libya, and Botswana.",
+  description: "Explore amazing destinations across Algeria, Rwanda, Benin, Libya, Botswana, Morocco, Egypt, and more.",
 };
 
 export default async function DestinationsPage({
@@ -71,7 +71,36 @@ export default async function DestinationsPage({
 
       <div className="pt-8 md:pt-12 pb-16 md:pb-24">
         <div className="container-custom">
-          <section className="mb-16">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+              African Destinations
+            </h2>
+            <p className="text-lg text-secondary-600 max-w-2xl mx-auto">
+              Discover incredible places across Morocco, Egypt, Kenya, Algeria, Rwanda, and more. 
+              From ancient cities to natural wonders, explore the diversity of Africa.
+            </p>
+          </div>
+
+          {/* Country Filters */}
+          <Suspense fallback={null}>
+            <CountryFilters currentCountry={countryFilter} />
+          </Suspense>
+
+          {/* Destinations List */}
+          <div className="mb-16">
+            <Suspense
+              fallback={
+                <div className="flex items-center justify-center py-12">
+                  <Loader size="lg" />
+                </div>
+              }
+            >
+              <DestinationsList page={page} limit={limit} countrySlug={countryFilter} />
+            </Suspense>
+          </div>
+
+          <section className="mb-16 pt-8 border-t border-secondary-200">
             <div className="text-center mb-10">
               <p className="text-sm uppercase tracking-[0.3em] text-secondary-500 mb-3">
                 Flagship guides
@@ -96,33 +125,6 @@ export default async function DestinationsPage({
               ))}
             </div>
           </section>
-
-          {/* Header */}
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
-              African Destinations
-            </h2>
-            <p className="text-lg text-secondary-600 max-w-2xl mx-auto">
-              Discover incredible places across Algeria, Rwanda, Benin, Libya, and Botswana. 
-              From ancient cities to natural wonders, explore the diversity of Africa.
-            </p>
-          </div>
-
-          {/* Country Filters */}
-          <Suspense fallback={null}>
-            <CountryFilters currentCountry={countryFilter} />
-          </Suspense>
-
-          {/* Destinations List */}
-          <Suspense
-            fallback={
-              <div className="flex items-center justify-center py-12">
-                <Loader size="lg" />
-              </div>
-            }
-          >
-            <DestinationsList page={page} limit={limit} countrySlug={countryFilter} />
-          </Suspense>
         </div>
       </div>
     </div>

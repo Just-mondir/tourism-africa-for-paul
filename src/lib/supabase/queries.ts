@@ -24,8 +24,10 @@ export interface PaginationOptions {
 const AFRICAN_COUNTRIES = [
   { table: "Algerie", name: "Algerie", slug: "algerie" },
   { table: "Botswana", name: "Botswana", slug: "botswana" },
+  { table: "Egypt", name: "Egypt", slug: "egypt" },
   { table: "Malawi", name: "Malawi", slug: "malawi" },
   { table: "Mali", name: "Mali", slug: "mali" },
+  { table: "Morocco", name: "Morocco", slug: "morocco" },
   { table: "Rwanda", name: "Rwanda", slug: "rwanda" },
   { table: "Zambia", name: "Zambia", slug: "zambia" },
   { table: "benin", name: "benin", slug: "benin" },
@@ -48,11 +50,27 @@ export async function getDestinations(
 
   // Fetch from all country tables in parallel
   const countryPromises = AFRICAN_COUNTRIES.map(async (country) => {
-    const { data, error } = await supabase
+    let data: any = null;
+    let error: any = null;
+    
+    const withImages = await supabase
       .from(country.table)
-      .select("places, desc, image_url").limit(1).single();
+      .select("places, desc, image_url, images").limit(1).single();
+
+    if (withImages.error) {
+      const withoutImages = await supabase
+        .from(country.table)
+        .select("places, desc, image_url").limit(1).single();
+      data = withoutImages.data;
+      error = withoutImages.error;
+    } else {
+      data = withImages.data;
+    }
 
       if (!data || error) return [];
+
+      const name = typeof data.places === "string" ? data.places : "";
+      if (name.length === 0 || name.length > 50 || name.includes(".")) return [];
 
       return [{
         ...data,
@@ -115,24 +133,43 @@ export async function getDestinationsByCountry(
     .from(country.table)
     .select("*", { count: "exact", head: true });
 
-  // Fetch destinations - only the 3 fields: places, desc, image_url
-  const { data, error } = await supabase
+  // Fetch destinations - gracefully handle missing images column
+  let data: any = null;
+  let error: any = null;
+
+  const withImages = await supabase
     .from(country.table)
-    .select("places, desc, image_url")
+    .select("places, desc, image_url, images")
     .range(from, to);
+
+  if (withImages.error) {
+    const withoutImages = await supabase
+      .from(country.table)
+      .select("places, desc, image_url")
+      .range(from, to);
+    data = withoutImages.data;
+    error = withoutImages.error;
+  } else {
+    data = withImages.data;
+  }
 
   if (error) {
     console.error(`Error fetching from ${country.table}:`, error);
     throw new Error(`Error: ${error.message}`);
   }
 
-  // Transform to include country info and generate unique id
-  const destinations: Destination[] = (data || []).map((place: AfricanPlace, idx: number) => ({
-    ...place,
-    id: `${country.slug}-${from + idx}-${Math.random().toString(36).substr(2, 9)}`, // Generate unique id
-    country: country.name,
-    country_slug: country.slug,
-  }));
+  // Transform to include country info, filter bad names, and generate unique id
+  const destinations: Destination[] = (data || [])
+    .filter((place: AfricanPlace) => {
+      const name = typeof place.places === "string" ? place.places : "";
+      return name.length > 0 && name.length <= 50 && !name.includes(".");
+    })
+    .map((place: AfricanPlace, idx: number) => ({
+      ...place,
+      id: `${country.slug}-${from + idx}-${Math.random().toString(36).substr(2, 9)}`, // Generate unique id
+      country: country.name,
+      country_slug: country.slug,
+    }));
 
   return {
     destinations,
@@ -164,12 +201,27 @@ export async function getDestinationBySlug(
   const supabase = await createClient();
   const normalizedSlug = generateSlug(placeSlug);
 
-  const { data, error } = await supabase
-    .from(country.table)
-    .select("places, desc, image_url");
+  // Try fetching with images column; fall back gracefully if column doesn't exist yet
+  let data: AfricanPlace[] | null = null;
+  let fetchError: unknown = null;
 
-  if (error) {
-    console.error(`Error fetching destination ${placeSlug} from ${country.table}:`, error);
+  const withImages = await supabase
+    .from(country.table)
+    .select("places, desc, image_url, images");
+
+  if (withImages.error) {
+    // Column might not exist — retry without it
+    const withoutImages = await supabase
+      .from(country.table)
+      .select("places, desc, image_url");
+    data = (withoutImages.data ?? null) as AfricanPlace[] | null;
+    fetchError = withoutImages.error;
+  } else {
+    data = (withImages.data ?? null) as AfricanPlace[] | null;
+  }
+
+  if (fetchError) {
+    console.error(`Error fetching destination ${placeSlug} from ${country.table}:`, fetchError);
     return null;
   }
 
@@ -189,12 +241,14 @@ export async function getDestinationBySlug(
   const placeName = typeof match.places === "string" ? match.places : normalizedSlug.replace(/-/g, " ");
   const description = typeof match.desc === "string" ? match.desc : null;
   const imageUrl = typeof match.image_url === "string" ? match.image_url : null;
+  const images = Array.isArray(match.images) ? (match.images as string[]) : null;
 
   const destination: Destination = {
     id: `${country.slug}-${normalizedSlug}`,
     places: placeName,
     desc: description,
     image_url: imageUrl,
+    images,
     country: country.name,
     country_slug: country.slug,
   };
@@ -433,6 +487,8 @@ export async function getFlagshipImages(): Promise<Record<string, string>> {
     { table: "Zambia", slug: "south-luangwa-national-park" },
     { table: "kenya", slug: "masai-mara" },
     { table: "zimbabwi", slug: "hwange-national-park" },
+    { table: "Morocco", slug: "marrakech" },
+    { table: "Egypt", slug: "pyramids-of-giza" },
   ];
 
   const fetchPromises = flagshipTargets.map(async (target) => {
