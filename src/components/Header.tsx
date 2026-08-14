@@ -252,7 +252,7 @@ export default function Header() {
                 alt="AfricGuide"
                 width={350}
                 height={130}
-                className="h-12 md:h-16 w-auto object-contain"
+                className="h-16 md:h-20 w-auto object-contain"
                 priority
               />
             </Link>

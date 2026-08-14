@@ -199,7 +199,7 @@ export default async function DestinationDetailPage({
                   <dt className="font-medium text-secondary-500 flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5" /> Best Season
                   </dt>
-                  <dd className="text-secondary-900 text-right">Dry season recommended</dd>
+                  <dd className="text-secondary-900 text-right">November–April</dd>
                 </div>
                 <div className="flex justify-between border-b border-secondary-100 pb-3">
                   <dt className="font-medium text-secondary-500 flex items-center gap-1.5">
@@ -209,9 +209,11 @@ export default async function DestinationDetailPage({
                 </div>
                 <div className="flex justify-between">
                   <dt className="font-medium text-secondary-500 flex items-center gap-1.5">
-                    <Star className="w-3.5 h-3.5" /> Experience
+                    <Star className="w-3.5 h-3.5" /> Attractions
                   </dt>
-                  <dd className="text-secondary-900 text-right">Signature highlight</dd>
+                  <dd className="text-secondary-900 text-right max-w-[60%]">
+                    {destination.places} highlights & culture
+                  </dd>
                 </div>
               </dl>
             </div>

@@ -2,6 +2,7 @@
  * DestinationCard Component - go2africa-inspired card layout
  * Text/title above the image, image in the middle with hover effect,
  * highlights/tags below — clean white card style.
+ * Fixed: equal height cards, Title Case names, consistent alignment.
  */
 
 "use client";
@@ -18,6 +19,15 @@ import { generateSlug } from "@/lib/utils";
 interface DestinationCardProps {
   destination: Destination;
   index?: number;
+}
+
+// Convert a string to Title Case
+function toTitleCase(str: string): string {
+  return str
+    .toLowerCase()
+    .split(/[\s-]+/)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 // Get country ISO code (alpha-2) based on country slug
@@ -47,6 +57,10 @@ export default function DestinationCard({
   const imageUrl = getOptimizedImageUrl(destination.image_url, 600, 400);
   const countryCode = getCountryCode(destination.country_slug);
 
+  // Title-Case the place name and country label
+  const placeName = toTitleCase(destination.places);
+  const countryLabel = toTitleCase(destination.country_slug.replace(/-/g, " "));
+
   // Truncate description
   const truncatedDesc = destination.desc
     ? destination.desc.length > 90
@@ -62,11 +76,11 @@ export default function DestinationCard({
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, delay: index * 0.08 }}
-      className="group"
+      className="group h-full"
     >
       <Link
         href={`/destinations/${destination.country_slug}/${placeSlug}`}
-        className="block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-secondary-100 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+        className="block h-full bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-secondary-100 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 flex flex-col"
       >
         {/* ── TOP TEXT SECTION (like go2africa: info above the image) ── */}
         <div className="px-5 pt-5 pb-4">
@@ -81,22 +95,22 @@ export default function DestinationCard({
               />
             )}
             <span className="text-xs font-semibold uppercase tracking-widest text-primary-500">
-              {destination.country_slug.replace(/-/g, " ")}
+              {countryLabel}
             </span>
           </div>
 
           {/* Place title — Playfair Display editorial style */}
           <h3 className="font-display text-xl md:text-2xl font-bold text-secondary-900 leading-snug group-hover:text-primary-600 transition-colors duration-200 line-clamp-2">
-            {destination.places}
+            {placeName}
           </h3>
         </div>
 
         {/* ── IMAGE SECTION ── */}
-        <div className="relative h-52 w-full overflow-hidden">
+        <div className="relative h-52 w-full overflow-hidden flex-shrink-0">
           {destination.image_url ? (
             <FallbackImage
               src={imageUrl}
-              alt={destination.places}
+              alt={placeName}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
@@ -111,7 +125,7 @@ export default function DestinationCard({
         </div>
 
         {/* ── BOTTOM INFO SECTION ── */}
-        <div className="px-5 py-4">
+        <div className="px-5 py-4 flex-1 flex flex-col justify-end">
           {truncatedDesc && (
             <>
               <p className="text-xs font-semibold uppercase tracking-wider text-secondary-500 mb-1">
@@ -126,7 +140,7 @@ export default function DestinationCard({
           <div className="flex items-center justify-between mt-4 pt-3 border-t border-secondary-100">
             <span className="text-xs text-secondary-400 flex items-center gap-1">
               <MapPin className="w-3.5 h-3.5 text-primary-400" />
-              {destination.country_slug.replace(/-/g, " ")}
+              {countryLabel}
             </span>
             <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary-600 group-hover:gap-2 transition-all duration-200">
               Explore <ArrowRight className="w-3.5 h-3.5" />

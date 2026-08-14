@@ -47,8 +47,8 @@ export default function Hero() {
             transition={{ duration: 0.3, delay: 0.05 }}
             className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed drop-shadow-md"
           >
-            Explore breathtaking destinations across Algeria, Rwanda, Benin, Libya, and Botswana. 
-            From ancient wonders to vibrant cultures, discover the beauty and diversity of Africa.
+            Explore breathtaking destinations across all of Africa — 
+            from ancient wonders and vibrant cultures to pristine beaches, thrilling safaris, and modern cityscapes.
           </motion.p>
 
           <motion.div

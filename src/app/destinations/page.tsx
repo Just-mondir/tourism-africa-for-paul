@@ -1,6 +1,7 @@
 /**
  * Destinations Page - Lists all African destinations
- * Fetches from all country tables: Algerie, Rwanda, Benin, Libya, Botswana
+ * Fetches from all country tables. Includes searchable country dropdown,
+ * consistent card grid, and enriched content.
  */
 
 import { Suspense } from "react";
@@ -12,10 +13,21 @@ import FlagshipSpotCard from "@/components/FlagshipSpotCard";
 import Loader from "@/components/Loader";
 import { getDestinations, getDestinationsByCountry, getCountries, getFlagshipImages } from "@/lib/supabase/queries";
 import { FLAGSHIP_DESTINATIONS } from "@/lib/flagship-destinations";
+import CountryDropdown from "@/components/CountryDropdown";
 
 export const metadata: Metadata = {
-  title: "African Destinations - Africa Tourism",
-  description: "Explore amazing destinations across Algeria, Rwanda, Benin, Libya, Botswana, Morocco, Egypt, and more.",
+  title: "African Destinations – Explore All Countries | AfricGuide",
+  description:
+    "Browse destinations across Algeria, Rwanda, Benin, Libya, Botswana, Morocco, Egypt, Kenya, and more. Find the perfect African getaway — from ancient ruins to tropical beaches.",
+  keywords: [
+    "african destinations",
+    "africa travel",
+    "morocco travel",
+    "egypt tourism",
+    "kenya safari",
+    "african countries",
+    "explore africa",
+  ],
 };
 
 export default async function DestinationsPage({
@@ -50,11 +62,13 @@ export default async function DestinationsPage({
               Top African Destinations
             </h1>
             <p className="text-lg md:text-xl text-white/90 drop-shadow-md max-w-2xl mx-auto">
-              Discover breathtaking landscapes, vibrant cultures, and unforgettable adventures across Africa's most stunning destinations.
+              From the Sahara&apos;s golden dunes to the lush deltas of Botswana,
+              discover breathtaking landscapes, vibrant cultures, and unforgettable
+              adventures across the continent.
             </p>
           </div>
           
-          {/* Featured Destinations Cards - Normal Size */}
+          {/* Featured Destinations Cards */}
           <div className="relative z-20">
             <Suspense
               fallback={
@@ -82,7 +96,7 @@ export default async function DestinationsPage({
             </p>
           </div>
 
-          {/* Country Filters */}
+          {/* Country Dropdown Filter */}
           <Suspense fallback={null}>
             <CountryFilters currentCountry={countryFilter} />
           </Suspense>
@@ -106,7 +120,7 @@ export default async function DestinationsPage({
                 Flagship guides
               </p>
               <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-3">
-                Signature destinations by country
+                Signature Destinations by Country
               </h2>
               <p className="text-secondary-600 max-w-2xl mx-auto">
                 Start with a curated, in-depth guide to the most iconic spot in each featured country.
@@ -131,7 +145,7 @@ export default async function DestinationsPage({
   );
 }
 
-// Featured Destinations - Shows first 3 cards (smaller size for Hero)
+// Featured Destinations - Shows first 3 cards
 async function FeaturedDestinations({ countrySlug }: { countrySlug: string }) {
   try {
     const { destinations } = countrySlug
@@ -143,7 +157,7 @@ async function FeaturedDestinations({ countrySlug }: { countrySlug: string }) {
     }
 
     return (
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
         {destinations.map((destination, index) => (
           <DestinationCard key={`featured-${destination.country_slug}-${destination.id}`} destination={destination} index={index} />
         ))}
@@ -155,35 +169,16 @@ async function FeaturedDestinations({ countrySlug }: { countrySlug: string }) {
   }
 }
 
-// Country filter buttons
+// Country filter — now renders the client-side dropdown
 async function CountryFilters({ currentCountry }: { currentCountry: string }) {
   const countries = await getCountries();
 
   return (
-    <div className="flex flex-wrap gap-4 mb-8 justify-center">
-      <Link
-        href="/destinations"
-        className={`px-4 py-2 rounded-lg transition-colors ${
-          !currentCountry
-            ? "bg-primary-500 text-white"
-            : "bg-secondary-100 text-secondary-900 hover:bg-primary-500 hover:text-white"
-        }`}
-      >
-        All Countries
-      </Link>
-      {countries.map((country) => (
-        <Link
-          key={country.slug}
-          href={`/destinations?country=${country.slug}`}
-          className={`px-4 py-2 rounded-lg transition-colors ${
-            currentCountry === country.slug
-              ? "bg-primary-500 text-white"
-              : "bg-secondary-100 text-secondary-900 hover:bg-primary-500 hover:text-white"
-          }`}
-        >
-          {country.name}
-        </Link>
-      ))}
+    <div className="flex justify-center mb-10">
+      <CountryDropdown
+        countries={countries}
+        currentCountry={currentCountry}
+      />
     </div>
   );
 }
@@ -217,8 +212,8 @@ async function DestinationsList({
 
     return (
       <>
-        {/* Destinations Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        {/* Destinations Grid — items-stretch ensures equal heights */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12 items-stretch">
           {destinations.map((destination, index) => (
             <DestinationCard key={`${destination.country_slug}-${destination.id}`} destination={destination} index={index} />
           ))}

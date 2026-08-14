@@ -7,7 +7,7 @@
 
 import { useState, FormEvent } from "react";
 import { motion } from "framer-motion";
-import { Send, Mail, Phone, MapPin } from "lucide-react";
+import { Send, Mail, Phone } from "lucide-react";
 import Modal from "@/components/Modal";
 import { createClient } from "@/lib/supabase/client";
 
@@ -99,7 +99,7 @@ export default function ContactPage() {
                 <Mail className="w-5 h-5 text-primary-600" />
                 <h3 className="font-semibold text-secondary-900">Email</h3>
               </div>
-              <p className="text-secondary-600">contact@africa-tourism.com</p>
+              <p className="text-secondary-600">contact@africguide.com</p>
             </div>
 
             <div>
@@ -107,19 +107,7 @@ export default function ContactPage() {
                 <Phone className="w-5 h-5 text-primary-600" />
                 <h3 className="font-semibold text-secondary-900">Phone</h3>
               </div>
-              <p className="text-secondary-600">+1 (555) 123-4567</p>
-            </div>
-
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <MapPin className="w-5 h-5 text-primary-600" />
-                <h3 className="font-semibold text-secondary-900">Address</h3>
-              </div>
-              <p className="text-secondary-600">
-                Africa Tourism Platform
-                <br />
-                Contact us via email
-              </p>
+              <p className="text-secondary-600">+44 141 261 6508</p>
             </div>
           </motion.div>
 

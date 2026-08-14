@@ -1,6 +1,6 @@
 /**
  * Home page - Africa Tourism Website
- * Displays hero section, African destinations from Supabase, and latest articles
+ * Displays hero section, African destinations, experiences strip, and latest articles
  */
 
 import { Suspense } from "react";
@@ -12,6 +12,7 @@ import Loader from "@/components/Loader";
 import { getPosts } from "@/lib/supabase/queries";
 import Link from "next/link";
 import Image from "next/image";
+import { Compass, Palmtree, Landmark, Mountain } from "lucide-react";
 
 const curatedStories = [
   {
@@ -37,6 +38,37 @@ const curatedStories = [
     image: "/latestStories/9e1e0fa96372cc48493a54138d813d5b.jpg",
     title: "Joyful convoy",
     description: "Two safari trucks full of energy—perfect for experiencing Africa with friends.",
+  },
+];
+
+const experienceTypes = [
+  {
+    icon: Compass,
+    title: "Safari & Wildlife",
+    description: "Track the Big Five across world-renowned national parks and private reserves.",
+    href: "/experiences",
+    color: "from-amber-500 to-orange-600",
+  },
+  {
+    icon: Landmark,
+    title: "Culture & Heritage",
+    description: "Immerse yourself in ancient traditions, vibrant festivals, and living history.",
+    href: "/experiences",
+    color: "from-rose-500 to-pink-600",
+  },
+  {
+    icon: Palmtree,
+    title: "Beaches & Islands",
+    description: "Relax on turquoise shores from Zanzibar and Seychelles to Cape Verde.",
+    href: "/experiences",
+    color: "from-cyan-500 to-teal-600",
+  },
+  {
+    icon: Mountain,
+    title: "Adventure & Outdoors",
+    description: "Climb Kilimanjaro, raft the Nile, or trek through lush volcanic forests.",
+    href: "/experiences",
+    color: "from-emerald-500 to-green-600",
   },
 ];
 
@@ -108,10 +140,56 @@ function TopDestinations() {
   );
 }
 
+// African Experiences strip
+function ExperiencesStrip() {
+  return (
+    <section className="bg-secondary-50 py-16 md:py-20">
+      <div className="container-custom">
+        <div className="text-center mb-12">
+          <p className="text-sm uppercase tracking-[0.3em] text-primary-500 font-semibold mb-3">
+            Beyond the Safari
+          </p>
+          <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-3">
+            Every Kind of African Experience
+          </h2>
+          <p className="text-secondary-600 max-w-2xl mx-auto">
+            Africa offers far more than safaris. Explore world-class beaches, ancient heritage sites,
+            adrenaline-pumping adventures, and rich cultural traditions across 54 countries.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {experienceTypes.map((exp) => {
+            const Icon = exp.icon;
+            return (
+              <Link
+                key={exp.title}
+                href={exp.href}
+                className="group relative bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-secondary-100 overflow-hidden"
+              >
+                <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${exp.color} text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <Icon className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-secondary-900 mb-2 group-hover:text-primary-600 transition-colors">
+                  {exp.title}
+                </h3>
+                <p className="text-sm text-secondary-600 leading-relaxed">
+                  {exp.description}
+                </p>
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ backgroundImage: `linear-gradient(to right, var(--tw-gradient-from), var(--tw-gradient-to))` }} />
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // Latest stories section (static curated content)
 function LatestStories() {
   return (
-    <section className="section-spacing bg-secondary-50">
+    <section className="section-spacing bg-white">
       <div className="container-custom">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -119,7 +197,7 @@ function LatestStories() {
               Latest Stories
             </h2>
             <p className="text-secondary-600 mt-2">
-              A taste of African adventures to inspire your next journey
+              Inspiring tales from across the African continent — wildlife, culture, adventure, and more
             </p>
           </div>
           <Link
@@ -131,11 +209,11 @@ function LatestStories() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] min-h-[480px]">
-          <div className="bg-white rounded-3xl shadow-sm overflow-hidden flex flex-col">
+          <div className="bg-secondary-50 rounded-3xl shadow-sm overflow-hidden flex flex-col">
             <div className="relative w-full h-72 md:h-96">
               <Image
                 src="/attractive-image.jpg"
-                alt="Travelers enjoying a safari in Africa"
+                alt="Travelers enjoying diverse African experiences"
                 fill
                 className="object-cover"
                 priority
@@ -146,10 +224,11 @@ function LatestStories() {
                 Live the moment
               </p>
               <h3 className="text-2xl md:text-3xl font-bold text-secondary-900 mt-2">
-                Enjoy your time in Africa
+                Enjoy Your Time in Africa
               </h3>
               <p className="text-secondary-600 mt-3">
-                Authentic moments, contagious smiles, and endless horizons—let the continent’s energy guide you.
+                Authentic moments, contagious smiles, and endless horizons — from bustling markets to
+                serene coastlines, let the continent&apos;s energy guide you.
               </p>
               <Link
                 href="/blog"
@@ -160,13 +239,13 @@ function LatestStories() {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-sm p-6 md:p-8 flex flex-col justify-between">
+          <div className="bg-secondary-50 rounded-3xl shadow-sm p-6 md:p-8 flex flex-col justify-between">
             <ul className="space-y-5 overflow-y-auto pr-2">
               {curatedStories.map((story) => (
                 <li key={story.id}>
                   <Link
                     href="/blog"
-                    className="flex items-center gap-4 group rounded-2xl p-2 transition hover:bg-secondary-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                    className="flex items-center gap-4 group rounded-2xl p-2 transition hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                   >
                     <div className="relative w-28 h-24 flex-shrink-0 rounded-xl overflow-hidden">
                       <Image
@@ -211,8 +290,8 @@ function NewsletterSection() {
             Get Your African Travel Inspiration
           </h2>
           <p className="text-primary-100 mb-8">
-            Subscribe to our newsletter for the latest African destinations, travel tips, 
-            and cultural insights delivered to your inbox.
+            Subscribe to our newsletter for the latest destinations, cultural insights,
+            beach getaways, and adventure ideas delivered to your inbox.
           </p>
           <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
             <input
@@ -259,6 +338,7 @@ export default function HomePage() {
       >
         <TopDestinations />
       </Suspense>
+      <ExperiencesStrip />
       <Suspense
         fallback={
           <section className="section-spacing bg-secondary-50">
