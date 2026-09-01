@@ -99,7 +99,7 @@ export default function ContactPage() {
                 <Mail className="w-5 h-5 text-primary-600" />
                 <h3 className="font-semibold text-secondary-900">Email</h3>
               </div>
-              <p className="text-secondary-600">contact@africguide.com</p>
+              <p className="text-secondary-600">info@africguide.com</p>
             </div>
 
             <div>

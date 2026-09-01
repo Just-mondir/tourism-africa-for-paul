@@ -1,40 +1,73 @@
 /**
  * Footer Component - Africa Tourism Website Footer
- * Redesigned with improved spacing, hierarchy, and visual consistency
+ * Multi-column link layout inspired by go2africa, using platform content
  */
 
 import Link from "next/link";
 import Image from "next/image";
 import { Facebook, Twitter, Instagram, Youtube, Mail, Phone } from "lucide-react";
 
-const footerLinks = {
-  about: [
-    { name: "About Us", href: "/about" },
-    { name: "Our Mission", href: "/about#mission" },
-    { name: "Our Team", href: "/about#team" },
-  ],
-  destinations: [
-    { name: "All Destinations", href: "/destinations" },
-    { name: "All Experiences", href: "/experiences" },
-    { name: "Algeria", href: "/destinations?country=algeria" },
-    { name: "Rwanda", href: "/destinations?country=rwanda" },
-    { name: "Benin", href: "/destinations?country=benin" },
-    { name: "Libya", href: "/destinations?country=libya" },
-    { name: "Botswana", href: "/destinations?country=botswana" },
-  ],
-  resources: [
-    { name: "African Directory", href: "/directory" },
-    { name: "Travel Guide", href: "/blog" },
-    { name: "FAQ", href: "/faq" },
-    { name: "Travel Tips", href: "/tips" },
-    { name: "Contact Us", href: "/contact" },
-  ],
-  legal: [
-    { name: "Privacy Policy", href: "/PDF/Privacy Policy for AfricGuide.pdf" },
-    { name: "Terms of Service", href: "/PDF/Terms of Service – AfricGuide.pdf" },
-    { name: "Cookies", href: "/cookies" },
-  ],
-};
+// ── Column link data ──────────────────────────────────────────────────────────
+const footerColumns = [
+  {
+    title: "Explore AfricGuide",
+    links: [
+      { name: "About Us", href: "/about" },
+      { name: "Our Stories", href: "/about/stories" },
+      { name: "Why Travel With Us", href: "/about/why-us" },
+      { name: "Our Team", href: "/about/team" },
+      { name: "Travel Blog", href: "/blog" },
+      { name: "African Directory", href: "/directory" },
+      { name: "Contact Us", href: "/contact" },
+    ],
+  },
+  {
+    title: "Destinations",
+    links: [
+      { name: "All Destinations", href: "/destinations" },
+      { name: "Morocco", href: "/destinations?country=morocco" },
+      { name: "Egypt", href: "/destinations?country=egypt" },
+      { name: "Kenya", href: "/destinations?country=kenya" },
+      { name: "Rwanda", href: "/destinations?country=rwanda" },
+      { name: "Botswana", href: "/destinations?country=botswana" },
+      { name: "Algeria", href: "/destinations?country=algerie" },
+      { name: "Benin", href: "/destinations?country=benin" },
+      { name: "Zambia", href: "/destinations?country=zambia" },
+      { name: "Malawi", href: "/destinations?country=malawi" },
+      { name: "Zimbabwe", href: "/destinations?country=zimbabwi" },
+      { name: "Mali", href: "/destinations?country=mali" },
+    ],
+  },
+  {
+    title: "Experiences",
+    links: [
+      { name: "All Experiences", href: "/experiences" },
+      { name: "Safari & Wildlife", href: "/experiences?category=safari" },
+      { name: "Culture & Heritage", href: "/experiences?category=culture" },
+      { name: "Beaches & Islands", href: "/experiences?category=beaches" },
+      { name: "Adventure & Outdoors", href: "/experiences?category=adventure" },
+    ],
+  },
+  {
+    title: "Travel Blog",
+    links: [
+      { name: "All Articles", href: "/blog" },
+      { name: "Family Safari Stories", href: "/blog" },
+      { name: "Wildlife Guides", href: "/blog" },
+      { name: "South Africa Vistas", href: "/blog" },
+      { name: "Adventure Convoys", href: "/blog" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { name: "African Directory", href: "/directory" },
+      { name: "Privacy Policy", href: "/PDF/Privacy Policy for AfricGuide.pdf" },
+      { name: "Terms of Service", href: "/PDF/Terms of Service \u2013 AfricGuide.pdf" },
+      { name: "Contact Us", href: "/contact" },
+    ],
+  },
+];
 
 const socialLinks = [
   { name: "Facebook", icon: Facebook, href: "#" },
@@ -49,50 +82,41 @@ export default function Footer() {
       {/* ── Top accent bar ── */}
       <div className="h-1 bg-gradient-to-r from-primary-500 via-accent to-primary-600" />
 
-      {/* ── Main footer content ── */}
-      <div className="container-custom pt-16 pb-12 px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
-          {/* Logo & Description — spans 4 cols */}
-          <div className="lg:col-span-4">
-            <Link
-              href="/"
-              className="inline-block mb-6 hover:opacity-80 transition-opacity"
-            >
-              <Image
-                src="/mylogo.png"
-                alt="AfricGuide"
-                width={280}
-                height={100}
-                className="h-20 w-auto object-contain"
-              />
-            </Link>
-            <p className="text-secondary-400 leading-relaxed mb-6 text-sm">
-              Your comprehensive guide to exploring the beauty, culture, and
-              diversity of Africa. From ancient wonders to vibrant cities,
-              pristine beaches to thrilling safaris — discover every corner of
-              the continent.
-            </p>
+      {/* ── Brand strip ── */}
+      <div className="border-b border-white/10">
+        <div className="container-custom px-4 md:px-6 py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          {/* Logo */}
+          <Link href="/" className="inline-block hover:opacity-80 transition-opacity flex-shrink-0">
+            <Image
+              src="/mylogo.png"
+              alt="AfricGuide"
+              width={220}
+              height={80}
+              className="h-16 w-auto object-contain"
+            />
+          </Link>
 
-            {/* Contact quick links */}
-            <div className="space-y-2 mb-6">
+          {/* Contact + Social */}
+          <div className="flex flex-col sm:flex-row gap-6 sm:gap-10 items-start sm:items-center">
+            <div className="space-y-1.5">
               <a
-                href="mailto:contact@africguide.com"
-                className="flex items-center gap-2 text-secondary-400 hover:text-primary-400 transition-colors text-sm"
+                href="mailto:info@africguide.com"
+                className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-sm"
               >
-                <Mail className="w-4 h-4 text-primary-500" />
-                contact@africguide.com
+                <Mail className="w-4 h-4 text-primary-400 flex-shrink-0" />
+                info@africguide.com
               </a>
               <a
                 href="tel:+441412616508"
-                className="flex items-center gap-2 text-secondary-400 hover:text-primary-400 transition-colors text-sm"
+                className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-sm"
               >
-                <Phone className="w-4 h-4 text-primary-500" />
+                <Phone className="w-4 h-4 text-primary-400 flex-shrink-0" />
                 +44 141 261 6508
               </a>
             </div>
 
-            {/* Social Links */}
-            <div className="flex gap-3">
+            {/* Social icons */}
+            <div className="flex gap-2">
               {socialLinks.map((social) => {
                 const Icon = social.icon;
                 return (
@@ -101,7 +125,7 @@ export default function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 bg-secondary-800 rounded-lg hover:bg-primary-600 transition-all duration-200 hover:scale-105"
+                    className="p-2 bg-white/10 rounded-md hover:bg-primary-600 transition-all duration-200 hover:scale-105"
                     aria-label={social.name}
                   >
                     <Icon className="w-4 h-4" />
@@ -110,85 +134,64 @@ export default function Footer() {
               })}
             </div>
           </div>
-
-          {/* About — spans 2 cols */}
-          <div className="lg:col-span-2 lg:col-start-6">
-            <h3 className="text-sm font-bold uppercase tracking-[0.15em] text-white mb-5 pb-2 border-b border-secondary-700">
-              About
-            </h3>
-            <ul className="space-y-3">
-              {footerLinks.about.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-secondary-400 hover:text-primary-400 transition-colors text-sm"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Explore — spans 3 cols */}
-          <div className="lg:col-span-3">
-            <h3 className="text-sm font-bold uppercase tracking-[0.15em] text-white mb-5 pb-2 border-b border-secondary-700">
-              Explore
-            </h3>
-            <ul className="space-y-3 columns-1 sm:columns-2 lg:columns-1">
-              {footerLinks.destinations.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-secondary-400 hover:text-primary-400 transition-colors text-sm"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Resources — spans 3 cols */}
-          <div className="lg:col-span-3">
-            <h3 className="text-sm font-bold uppercase tracking-[0.15em] text-white mb-5 pb-2 border-b border-secondary-700">
-              Resources
-            </h3>
-            <ul className="space-y-3">
-              {footerLinks.resources.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-secondary-400 hover:text-primary-400 transition-colors text-sm"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
       </div>
 
-      {/* ── Bottom Bar ── */}
-      <div className="border-t border-secondary-800">
-        <div className="container-custom px-4 md:px-6 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-secondary-500 text-xs">
+      {/* ── Multi-column link grid ── */}
+      <div className="container-custom px-4 md:px-6 py-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8">
+          {footerColumns.map((col) => (
+            <div key={col.title}>
+              <h3 className="text-sm font-bold text-white mb-4">
+                {col.title}
+              </h3>
+              <ul className="space-y-2.5">
+                {col.links.map((link) => (
+                  <li key={link.href + link.name}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-white/60 hover:text-white transition-colors duration-150 leading-relaxed"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Bottom bar ── */}
+      <div className="border-t border-white/10">
+        <div className="container-custom px-4 md:px-6 py-5">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-3">
+            <p className="text-white/40 text-xs">
               © {new Date().getFullYear()} AfricGuide. All rights reserved.
             </p>
-            <div className="flex flex-wrap justify-center gap-6">
-              {footerLinks.legal.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-secondary-500 hover:text-primary-400 transition-colors text-xs"
-                >
-                  {link.name}
-                </a>
-              ))}
+            <div className="flex flex-wrap justify-center gap-5">
+              <Link
+                href="/PDF/Privacy Policy for AfricGuide.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/40 hover:text-white/70 transition-colors text-xs"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/PDF/Terms of Service – AfricGuide.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/40 hover:text-white/70 transition-colors text-xs"
+              >
+                Terms of Service
+              </Link>
+              <Link
+                href="/contact"
+                className="text-white/40 hover:text-white/70 transition-colors text-xs"
+              >
+                Contact
+              </Link>
             </div>
           </div>
         </div>
